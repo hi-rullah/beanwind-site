@@ -1,6 +1,3 @@
-server:
-  port: 8080
-
-gg:
-  jte:
-    development-mode: true
+spring:
+  profiles:
+    active: prod

@@ -1,0 +1,7 @@
+add alsoserver:
+  port: ${PORT:8080}
+
+gg:
+  jte:
+    development-mode: false
+    use-precompiled-templates: true

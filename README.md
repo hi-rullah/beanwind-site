@@ -154,4 +154,30 @@ Generate a free one at: https://favicon.io
 | Templates | JTE 3.1.9 |
 | Styling | Tailwind CSS v4 |
 | Font | Syne + DM Sans (Google Fonts) |
-| Deployment | Single JAR |
+| Deployment | Cloud Run / Single JAR |
+
+---
+
+## Deployment to Google Cloud Run
+
+The project is configured for seamless deployment to Google Cloud Run:
+
+1. **Port Handling**: Uses `server.port: ${PORT:8080}` to automatically bind to the port injected by Cloud Run.
+2. **Profiles**: Uses Spring Profiles (`application-prod.yml`) for production-specific tuning.
+3. **JTE Precompilation**: Configured to precompile templates during the Maven build phase for faster startup and compatibility with container environments.
+
+### Build and Deploy Command
+```bash
+gcloud run deploy javaview-site --source . --env-vars-update SPRING_PROFILES_ACTIVE=prod
+```
+
+---
+
+## Changelog
+
+### April 22, 2026 — Cloud Run Production Readiness
+- Updated JTE to version `3.2.1` and added `jte-maven-plugin` for template precompilation.
+- Implemented dynamic port binding using `${PORT:8080}` in `application-prod.yml`.
+- Reorganized application configuration into profile-specific files (`application-prod.yml`, `application-dev.yml`).
+- Added `.jteroot` to `src/main/jte` for proper JTE template discovery.
+- Set `prod` as the default active profile in `application.yml`.
