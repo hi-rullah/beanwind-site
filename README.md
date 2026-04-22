@@ -184,8 +184,6 @@ If you are starting in a new environment (like Cloud Shell), follow these steps:
    ```
 
 ### Redeployment (Cloud Shell)
-For subsequent updates, use this sequence:
-
 When working from Cloud Shell, use the following sequence to ensure you are deploying the latest changes:
 
 1. **Pull latest code**:
@@ -193,7 +191,16 @@ When working from Cloud Shell, use the following sequence to ensure you are depl
    git pull
    ```
 
-2. **Deploy**:
+2. **Apply your changes** (edit files as needed).
+
+3. **Commit and Push to Google Cloud**:
+   ```bash
+   git add .
+   git commit -m "Your descriptive commit message"
+   git push --all google
+   ```
+
+4. **Deploy**:
    ```bash
    gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
    ```
