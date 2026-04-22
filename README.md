@@ -151,25 +151,52 @@ Generate a free one at: https://favicon.io
 | Layer | Technology |
 |---|---|
 | Server | Spring Boot 3.2 |
-| Templates | JTE 3.1.9 |
+| Templates | JTE 3.2.1 |
 | Styling | Tailwind CSS v4 |
 | Font | Syne + DM Sans (Google Fonts) |
 | Deployment | Cloud Run / Single JAR |
 
 ---
-
 ## Deployment to Google Cloud Run
 
 The project is configured for seamless deployment to Google Cloud Run:
 
 1. **Port Handling**: Uses `server.port: ${PORT:8080}` to automatically bind to the port injected by Cloud Run.
 2. **Profiles**: Uses Spring Profiles (`application-prod.yml`) for production-specific tuning.
-3. **JTE Precompilation**: Configured to precompile templates during the Maven build phase for faster startup and compatibility with container environments.
+3. **JTE Precompilation**: Configured to precompile templates during the Maven build phase.
 
-### Build and Deploy Command
-```bash
-gcloud run deploy javaview-site --source . --env-vars-update SPRING_PROFILES_ACTIVE=prod
-```
+### Initial Setup & First Deployment
+If you are starting in a new environment (like Cloud Shell), follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone [YOUR_GIT_REPO_URL]
+   ```
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd javaview-site
+   ```
+
+3. **Deploy to Cloud Run**:
+   ```bash
+   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
+   ```
+
+### Redeployment (Cloud Shell)
+For subsequent updates, use this sequence:
+
+When working from Cloud Shell, use the following sequence to ensure you are deploying the latest changes:
+
+1. **Pull latest code**:
+   ```bash
+   git pull
+   ```
+
+2. **Deploy**:
+   ```bash
+   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
+   ```
 
 ---
 
