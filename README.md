@@ -98,13 +98,14 @@ javaview-site/
 ├── src/main/resources/
 │   ├── static/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
-│   │   └── favicon.ico                   ← optional site icon
+│   │   └── images/favicon/               ← favicons + site.webmanifest
 │   └── application.yml                   ← app config
 ├── deploy/                               ← deployment notes & config per platform
 ├── mvnw / mvnw.cmd                       ← Maven wrapper
 ├── input.css                             ← Tailwind v4 entry point
 ├── tailwind-build.bat                    ← build CSS once (Windows)
 ├── tailwind-watch.bat                    ← watch CSS changes (Windows)
+├── tailwindcss-windows-x64.exe           ← Tailwind CLI (download in Step 1, gitignored)
 └── pom.xml
 ```
 
@@ -137,14 +138,20 @@ The old v3 syntax no longer works:
 
 ---
 
-## Favicon 404
+## Favicons
 
-The browser looks for `/favicon.ico` automatically. To remove the 404 warning in the console, add any `.ico` file here:
-```
-src/main/resources/static/favicon.ico
-```
+All icons live in `src/main/resources/static/images/favicon/` and are linked from the `<head>` of each page:
 
-Generate a free one at: https://favicon.io
+| File | Used by |
+|---|---|
+| `favicon.svg`, `favicon-96x96.png`, `favicon.ico` | Browser tab icon |
+| `apple-touch-icon.png` | iOS home screen |
+| `site.webmanifest` + `web-app-manifest-192x192.png` / `-512x512.png` | Android home screen / installable web app |
+
+Icons inside `site.webmanifest` use absolute paths (`/images/favicon/...`) — keep them in sync if the folder moves.
+Because every page declares its icons, there is no `/favicon.ico` at the site root (requesting it returns 404).
+
+To regenerate the whole set from a new logo, use a generator such as https://realfavicongenerator.net (it produces the same file names).
 
 ---
 
