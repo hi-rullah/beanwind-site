@@ -7,7 +7,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>4.1.1</version>
+        <relativePath/>
     </parent>
 
     <groupId>com.javaview</groupId>
@@ -15,20 +16,25 @@
     <version>1.0.0</version>
     <name>JavaView Site</name>
 
+    <properties>
+        <java.version>25</java.version>
+        <jte.version>3.2.4</jte.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>gg.jte</groupId>
-            <artifactId>jte-spring-boot-starter-3</artifactId>
-            <version>3.2.1</version>
+            <artifactId>jte-spring-boot-starter-4</artifactId>
+            <version>${jte.version}</version>
         </dependency>
         <dependency>
             <groupId>gg.jte</groupId>
             <artifactId>jte</artifactId>
-            <version>3.2.1</version>
+            <version>${jte.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,6 +45,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -47,7 +54,7 @@
             <plugin>
                 <groupId>gg.jte</groupId>
                 <artifactId>jte-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>${jte.version}</version>
                 <executions>
                     <execution>
                         <id>jte-generate</id>

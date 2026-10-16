@@ -43,3 +43,4 @@ secrets.properties
 
 # big file, not needed in git repo
 /tailwindcss-windows-x64.exe
+.aws-sam/

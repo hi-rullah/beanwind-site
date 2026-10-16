@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: JavaView Site - Spring Boot + JTE on AWS Lambda (Lambda Web Adapter + SnapStart)
+
+Resources:
+  JavaViewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: javaview-site
+      CodeUri: ../../target/lambda        # jar + run.sh, produced by deploy.cmd
+      Handler: run.sh
+      Runtime: java25
+      Architectures: [arm64]
+      MemorySize: 1024
+      Timeout: 30
+      Layers:
+        # AWS Lambda Web Adapter: turns Lambda events into HTTP requests on port 8080
+        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerArm64:30
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
+          AWS_LWA_PORT: '8080'
+          AWS_LWA_READINESS_CHECK_PATH: /
+          AWS_LWA_ENABLE_COMPRESSION: 'true'
+      SnapStart:
+        ApplyOn: PublishedVersions
+      AutoPublishAlias: live              # SnapStart only applies to published versions
+      FunctionUrlConfig:
+        AuthType: NONE                    # public, like Cloud Run's --allow-unauthenticated
+
+  JavaViewLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/javaview-site
+      RetentionInDays: 14
+
+Outputs:
+  SiteUrl:
+    Description: Public URL of the site
+    Value: !GetAtt JavaViewFunctionUrl.FunctionUrl

@@ -7,8 +7,8 @@ No React. No Node.js. No npm. Pure Java.
 
 ## Prerequisites
 
-- Java 17+
-- Maven 3.8+
+- Java 25
+- Maven — not required, use the included wrapper (`mvnw` / `mvnw.cmd`)
 
 ---
 
@@ -48,7 +48,7 @@ This generates: `src/main/resources/static/css/output.css`
 ## Step 3 — Run the App
 
 ```
-mvn spring-boot:run
+mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 Open browser: http://localhost:8080
@@ -75,7 +75,7 @@ tailwind-watch.bat
 
 **Terminal 2** — run the app:
 ```
-mvn spring-boot:run
+mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 - JTE templates reload instantly on browser refresh (no restart needed)
@@ -100,6 +100,8 @@ javaview-site/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
 │   │   └── favicon.ico                   ← optional site icon
 │   └── application.yml                   ← app config
+├── deploy/                               ← deployment notes & config per platform
+├── mvnw / mvnw.cmd                       ← Maven wrapper
 ├── input.css                             ← Tailwind v4 entry point
 ├── tailwind-build.bat                    ← build CSS once (Windows)
 ├── tailwind-watch.bat                    ← watch CSS changes (Windows)
@@ -150,64 +152,34 @@ Generate a free one at: https://favicon.io
 
 | Layer | Technology |
 |---|---|
-| Server | Spring Boot 3.2 |
-| Templates | JTE 3.2.1 |
+| Language | Java 25 |
+| Server | Spring Boot 4.1 |
+| Templates | JTE 3.2.4 |
 | Styling | Tailwind CSS v4 |
 | Font | Syne + DM Sans (Google Fonts) |
-| Deployment | Cloud Run / Single JAR |
+| Build | Maven (wrapper included) |
 
 ---
-## Deployment to Google Cloud Run
 
-The project is configured for seamless deployment to Google Cloud Run:
+## Deployment
 
-1. **Port Handling**: Uses `server.port: ${PORT:8080}` to automatically bind to the port injected by Cloud Run.
-2. **Profiles**: Uses Spring Profiles (`application-prod.yml`) for production-specific tuning.
-3. **JTE Precompilation**: Configured to precompile templates during the Maven build phase.
+The app is a plain Spring Boot jar (`mvnw clean package` → `target/javaview-site.jar`) and can run anywhere Java 25 runs.
+Platform-specific deployment notes live under [`deploy/`](deploy/):
 
-### Initial Setup & First Deployment
-If you are starting in a new environment (like Cloud Shell), follow these steps:
-
-1. **Clone the repository**:
-   ```bash
-   git clone [YOUR_GIT_REPO_URL]
-   ```
-
-2. **Navigate to the project directory**:
-   ```bash
-   cd javaview-site
-   ```
-
-3. **Deploy to Cloud Run**:
-   ```bash
-   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
-   ```
-
-### Redeployment (Cloud Shell)
-When working from Cloud Shell, use the following sequence to ensure you are deploying the latest changes:
-
-1. **Pull latest code**:
-   ```bash
-   git pull
-   ```
-
-2. **Apply your changes** (edit files as needed).
-
-3. **Commit and Push to Google Cloud**:
-   ```bash
-   git add .
-   git commit -m "Your descriptive commit message"
-   git push --all google
-   ```
-
-4. **Deploy**:
-   ```bash
-   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
-   ```
+| Target | Notes |
+|---|---|
+| AWS Lambda (current) | [`deploy/aws-lambda/README.md`](deploy/aws-lambda/README.md) |
+| Google Cloud Run (previous) | [`deploy/cloud-run/README.md`](deploy/cloud-run/README.md) |
 
 ---
 
 ## Changelog
+
+### October 16, 2026 — Java 25 / Spring Boot 4 upgrade, deployment moved to `deploy/`
+- Upgraded to Java 25, Spring Boot 4.1.1 and JTE 3.2.4 (`jte-spring-boot-starter-4`).
+- Added Maven wrapper.
+- Replaced Google Cloud Run deployment with AWS Lambda; all deployment files, scripts and notes live in `deploy/`.
+- Source moved from Google Cloud Source Repositories to GitHub; default branch renamed `master` → `main`.
 
 ### April 22, 2026 — Cloud Run Production Readiness
 - Updated JTE to version `3.2.1` and added `jte-maven-plugin` for template precompilation.
