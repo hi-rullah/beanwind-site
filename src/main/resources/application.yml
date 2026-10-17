@@ -1,3 +1,12 @@
 spring:
   profiles:
     active: prod
+  config:
+    # Local secrets (gitignored, never packaged into the jar). Copy secret.example.yml to secret.yml.
+    # On a server, use environment variables instead, e.g. BACKEND_API_KEY.
+    import: optional:file:./secret.yml
+
+# Backend service (separate repo) that this frontend calls over HTTP. See docs/architecture.md
+backend:
+  base-url: ${BACKEND_BASE_URL:http://localhost:8081}
+  # api-key: set in secret.yml or via the BACKEND_API_KEY environment variable

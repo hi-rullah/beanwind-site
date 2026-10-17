@@ -5,6 +5,23 @@ No React. No Node.js. No npm. Pure Java.
 
 ---
 
+## Architecture
+
+This repo is the **frontend (presentation) tier** of a three-tier application — it contains no backend business logic and no database access.
+
+```
+Browser ──▶ javaview-site (THIS REPO)  ──REST──▶  Backend service  ──▶  Database
+            Spring Boot · JTE · Tailwind           (separate repo)       (backend only)
+```
+
+- Pages are rendered here with JTE; data comes from the backend over HTTP (`backend.base-url` in `application.yml`).
+- Local secrets go in `secret.yml` (gitignored) — copy `secret.example.yml` to start.
+- Spring Security is not enabled yet; how to add it is described in the guide.
+
+Details: [`docs/architecture.md`](docs/architecture.md) — tiers, backend connection, secrets, Spring Security guide.
+
+---
+
 ## Prerequisites
 
 - Java 25
@@ -90,6 +107,9 @@ mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 javaview-site/
 ├── src/main/java/com/javaview/
 │   ├── Application.java                  ← Spring Boot entry point
+│   ├── config/
+│   │   ├── BackendProperties.java        ← backend.* settings
+│   │   └── BackendClientConfig.java      ← RestClient for the backend service
 │   └── controller/
 │       └── PageController.java           ← page route mappings
 ├── src/main/jte/
@@ -99,8 +119,10 @@ javaview-site/
 │   ├── static/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
 │   │   └── images/favicon/               ← favicons + site.webmanifest
-│   └── application.yml                   ← app config
+│   └── application.yml                   ← app config (+ application-dev/prod.yml)
+├── docs/architecture.md                  ← three-tier design, backend, secrets, security guide
 ├── deploy/                               ← deployment notes & config per platform
+├── secret.example.yml                    ← template for secret.yml (gitignored local secrets)
 ├── mvnw / mvnw.cmd                       ← Maven wrapper
 ├── input.css                             ← Tailwind v4 entry point
 ├── tailwind-build.bat                    ← build CSS once (Windows)

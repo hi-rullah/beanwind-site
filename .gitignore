@@ -38,7 +38,8 @@ log/
 ### JTE classes, added by Hayrullah
 /jte-classes/
 
-# secret file
+# secret files (see secret.example.yml)
+secret.yml
 secrets.properties
 
 # big file, not needed in git repo
