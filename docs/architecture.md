@@ -167,3 +167,45 @@ check `server.forward-headers-strategy` when testing on the deployed site.
   so a user can be "logged out" when a request hits another instance. Accepted for the demo deployment; for real use,
   add an external session store (Spring Session with Redis/JDBC) or deploy with long-lived instances.
 - **Dev tools:** keep dev-only settings in `application-dev.yml`; never disable security in `prod`.
+
+---
+
+## Visitor logging and cookies
+
+Every page view writes one log line (static files are not logged), via `visitor/VisitorTrackingInterceptor`:
+
+```
+page_view method=GET path=/about status=200 visitor=- user=- ip=203.0.113.0 referer="https://example.com/" ua="Mozilla/5.0 ..."
+```
+
+- **No cookie needed** for this: page, status, referrer and browser come with every request.
+- **IP addresses are anonymized** before logging (IPv4 /24, IPv6 /48). Behind the Lambda Function URL the client
+  address is the first `X-Forwarded-For` entry.
+- **Visitor ID cookie only with consent.** The cookie banner (`layout/cookieBanner.jte` + `js/layout/consent.js`)
+  stores the choice in `jv_consent`. Only after `accepted` does the server set `jv_visitor` (random UUID, HttpOnly,
+  6 months) to count returning visitors; after `rejected` it deletes it. Reject is as easy as accept, and
+  "Cookie settings" in the footer reopens the banner. Without JavaScript nothing is accepted.
+- Client-supplied values (user agent, referrer, usernames) are stripped of quotes and control characters so they
+  cannot forge log lines.
+- Sign-in events are logged by `security/AuthenticationEventLogger`: `login_success`, `login_failure`, `logout`.
+- The `/privacy` page explains all of this to visitors. **Keep it in sync with the code**, including the log retention
+  it promises (30 days): set the Lambda log group retention accordingly.
+
+On AWS Lambda the lines go to CloudWatch Logs. Example CloudWatch Logs Insights queries:
+
+```
+# page views per page
+filter @message like /page_view/
+| parse @message "path=* " as path
+| stats count() as views by path
+| sort views desc
+
+# unique visitors (only those who accepted the analytics cookie)
+filter @message like /page_view/ and @message not like /visitor=- /
+| parse @message "visitor=* " as visitor
+| stats count_distinct(visitor) as visitors
+```
+
+Rules like GDPR / ePrivacy apply to EU visitors. This setup follows common practice (no tracking cookie without
+consent, anonymized IPs, short retention, a clear privacy page), but it is not legal advice.
+

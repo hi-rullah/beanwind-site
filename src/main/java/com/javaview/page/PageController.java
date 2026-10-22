@@ -10,6 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Page routes. Every page view is logged by {@link com.javaview.visitor.VisitorTrackingInterceptor},
+ * so the handlers here need no logging code of their own.
+ */
 @Controller
 public class PageController {
 
@@ -21,6 +25,11 @@ public class PageController {
     @GetMapping("/about")
     public String about() {
         return "about";
+    }
+
+    @GetMapping("/privacy")
+    public String privacy() {
+        return "privacy";
     }
 
     // POST /login and POST /logout are handled by Spring Security (see SecurityConfig)

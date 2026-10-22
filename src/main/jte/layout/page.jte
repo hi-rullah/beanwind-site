@@ -18,6 +18,7 @@
     <link rel="preload" href="/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/css/output.css">
+    <script src="/js/layout/consent.js" defer></script>
     <script src="/js/${page}.js" defer></script>
     <style>
         /* Dark background before output.css is applied: no white flash between pages */
@@ -42,6 +43,8 @@
     ${content}
 
     @template.layout.footer()
+
+    @template.layout.cookieBanner()
 
 </body>
 </html>

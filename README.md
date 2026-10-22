@@ -113,22 +113,28 @@ javaview-site/
 │   │   └── SecurityConfig.java           ← Spring Security: public pages, demo user, (commented) OAuth2
 │   ├── page/
 │   │   └── PageController.java           ← page route mappings
-│   └── security/
-│       ├── CurrentUser.java              ← logged-in user as the templates see it
-│       └── CurrentUserAdvice.java        ← adds currentUser to every page's model
+│   ├── security/
+│   │   ├── AuthenticationEventLogger.java ← logs sign-in, failed sign-in, sign-out
+│   │   ├── CurrentUser.java              ← logged-in user as the templates see it
+│   │   └── CurrentUserAdvice.java        ← adds currentUser to every page's model
+│   └── visitor/
+│       ├── VisitorTrackingInterceptor.java ← one log line per page view; visitor cookie only with consent
+│       └── VisitorWebConfig.java         ← registers the interceptor for all pages
 ├── src/main/jte/
 │   ├── layout/
 │   │   ├── page.jte                      ← shared page layout: <head>, navbar, content, footer
 │   │   ├── navbar.jte                    ← shared navbar (included by page.jte)
-│   │   └── footer.jte                    ← shared footer, year from Year.now() (included by page.jte)
+│   │   ├── footer.jte                    ← shared footer, year from Year.now() (included by page.jte)
+│   │   └── cookieBanner.jte              ← cookie consent banner (included by page.jte)
 │   ├── index.jte                         ← Home page
 │   ├── about.jte                         ← About page
+│   ├── privacy.jte                       ← Privacy & cookies page
 │   ├── login.jte                         ← Sign-in page (demo / demo)
 │   └── secured.jte                       ← Page that requires login
 ├── src/main/resources/
 │   ├── static/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
-│   │   ├── js/                           ← one script per page: index.js, about.js, login.js, secured.js
+│   │   ├── js/                           ← one script per page (index.js, about.js, ...); layout/ for layout scripts (consent.js)
 │   │   ├── fonts/                        ← self-hosted Syne + DM Sans (.woff2)
 │   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest
 │   └── application.yml                   ← app config (+ application-dev/prod.yml)
@@ -149,7 +155,8 @@ Everything in `src/main/resources/static/` is served from the site root (`static
 
 - **`js/`** — one file per page, named after its template: `index.jte` → `js/index.js`, `about.jte` → `js/about.js`.
   Each page loads only its own script in `<head>`: `<script src="/js/about.js" defer></script>`.
-  A new page `contact.jte` gets `js/contact.js`.
+  A new page `contact.jte` gets `js/contact.js`. Scripts used by the layout templates (on every page) live in `js/layout/`,
+  e.g. `js/layout/consent.js` for the cookie banner.
 - **`fonts/`** — self-hosted fonts (`.woff2`): Syne and DM Sans, Latin subset. Declared with `@font-face` in `input.css`, so they are part of `output.css`; no requests go to Google Fonts.
 - **`images/`** — images used by the pages; favicons stay in `images/favicon/`.
 
