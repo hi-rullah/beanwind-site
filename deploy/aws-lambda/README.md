@@ -102,5 +102,12 @@ This deletes the `javaview-site` stack. The `aws-sam-cli-managed-default` stack 
 - **No rate limiting/WAF** on Function URLs — add CloudFront + WAF if the site ever gets abuse traffic.
 - **Compression:** `AWS_LWA_ENABLE_COMPRESSION=true` lets the adapter gzip responses (home page 7.9 KB → 2.3 KB).
 - **Cost:** Lambda free tier = 1M requests + 400,000 GB-s per month; Function URLs are free. SnapStart is free for Java. Expect ~$0 for a landing page.
+- **Behind a proxy: `server.forward-headers-strategy: native`** (`application-prod.yml`). The Function URL and the
+  Web Adapter hand Tomcat plain http from localhost. Without this setting redirects (login, logout, `/secured`) point to
+  `http://…`, which Function URLs don't answer (they only serve https), and every visitor IP looks like `127.0.0.1`.
+- **Log retention is 30 days** (`JavaViewLogGroup` in `template.yaml`), as promised on the site's `/privacy` page —
+  change both together.
+- **Build with the `prod` profile.** `spring.profiles.active` in `application.yml` is baked into the jar; a jar built
+  with `dev` would try to compile templates at runtime and fail on Lambda.
 - **Web Adapter layer version** (`LambdaAdapterLayerArm64:30`) is pinned in `template.yaml` — bump it when a new adapter release comes out.
 - **SAM telemetry:** set `SAM_CLI_TELEMETRY=0` to opt out.

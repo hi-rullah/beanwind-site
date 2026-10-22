@@ -1,5 +1,8 @@
 server:
   port: ${PORT:8080}
+  # Behind the Lambda Function URL + Web Adapter, Tomcat only sees plain http from localhost.
+  # Trust X-Forwarded-Proto/-For from local proxies so redirects use https and getRemoteAddr() is the visitor.
+  forward-headers-strategy: native
 
 spring:
   web:

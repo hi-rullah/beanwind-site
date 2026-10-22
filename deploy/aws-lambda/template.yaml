@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: /aws/lambda/javaview-site
-      RetentionInDays: 14
+      RetentionInDays: 30                 # matches the privacy page (logs kept at most 30 days)
 
 Outputs:
   SiteUrl:
