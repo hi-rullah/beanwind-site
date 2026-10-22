@@ -73,22 +73,34 @@
             </div>
             <div class="grid md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <div class="card-hover bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+                <div class="card-hover flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
                     <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6 text-2xl">🍃</div>
                     <h3 class="font-display text-xl font-bold mb-3">JTE Templates</h3>
                     <p class="text-zinc-400 leading-relaxed">Type-safe Java templates. Your model objects flow directly into HTML — no JSON, no drift, no surprises.</p>
+                    <a href="https://jte.gg/" target="_blank" rel="noopener noreferrer"
+                       class="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+                        jte.gg <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
+                    </a>
                 </div>
                 <!-- Card 2 -->
-                <div class="card-hover bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+                <div class="card-hover flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
                     <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-6 text-2xl">🎨</div>
                     <h3 class="font-display text-xl font-bold mb-3">Tailwind CSS</h3>
                     <p class="text-zinc-400 leading-relaxed">Utility-first styling compiled to a tiny CSS file. Beautiful, responsive, consistent — with zero custom CSS needed.</p>
+                    <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer"
+                       class="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+                        tailwindcss.com <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
+                    </a>
                 </div>
                 <!-- Card 3 -->
-                <div class="card-hover bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+                <div class="card-hover flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
                     <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-6 text-2xl">⚡</div>
                     <h3 class="font-display text-xl font-bold mb-3">Spring Boot</h3>
                     <p class="text-zinc-400 leading-relaxed">Deploy as a single JAR. No Node server. No build pipeline. Just run and it works.</p>
+                    <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noopener noreferrer"
+                       class="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-violet-400 hover:text-violet-300 transition-colors">
+                        spring.io <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
+                    </a>
                 </div>
             </div>
         </div>
