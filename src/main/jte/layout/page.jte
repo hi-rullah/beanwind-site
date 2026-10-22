@@ -1,3 +1,4 @@
+@import com.javaview.page.Assets
 @import com.javaview.security.CurrentUser
 @import gg.jte.Content
 @param String title
@@ -17,9 +18,9 @@
     <%-- Fonts used above the fold: start downloading before the CSS is parsed, so text does not swap fonts --%>
     <link rel="preload" href="/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/output.css">
-    <script src="/js/layout/consent.js" defer></script>
-    <script src="/js/${page}.js" defer></script>
+    <link rel="stylesheet" href="${Assets.url("/css/output.css")}">
+    <script src="${Assets.url("/js/layout/consent.js")}" defer></script>
+    <script src="${Assets.url("/js/" + page + ".js")}" defer></script>
     <style>
         /* Dark background before output.css is applied: no white flash between pages */
         html { background-color: #09090b; }
