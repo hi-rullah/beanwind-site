@@ -2,7 +2,7 @@
 @param CurrentUser currentUser
 
 @template.layout.page(
-    title = "JavaView — Java-First UI Platform",
+    title = "JavaView — One JAR. Whole UI.",
     page = "index",
     active = "home",
     currentUser = currentUser,
@@ -46,6 +46,9 @@
                 Build Beautiful<br>
                 <span class="gradient-text">Java Web Apps</span>
             </h1>
+            <p class="fade-up delay-3 font-display text-xl md:text-2xl font-bold text-emerald-400 tracking-tight mb-6">
+                One JAR. Whole UI.
+            </p>
             <p class="fade-up delay-3 text-zinc-400 text-xl md:text-2xl font-light max-w-2xl mx-auto mb-10 leading-relaxed">
                 No React. No Node.js. No complexity.<br>
                 Just Java, clean templates, and stunning UI.
@@ -87,6 +90,34 @@
                     <h3 class="font-display text-xl font-bold mb-3">Spring Boot</h3>
                     <p class="text-zinc-400 leading-relaxed">Deploy as a single JAR. No Node server. No build pipeline. Just run and it works.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- java -jar -->
+    <section class="pb-28 px-6">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-5">
+                    <code class="whitespace-nowrap text-emerald-400">java -jar</code> your UI.
+                </h2>
+                <p class="text-zinc-400 text-lg leading-relaxed mb-4">
+                    Pages, styles, fonts and security all live in one file. No Node server, no separate frontend deployment, no asset pipeline.
+                </p>
+                <p class="text-zinc-400 leading-relaxed">
+                    If it runs Java, it runs your UI: a laptop, a virtual machine, a container or AWS Lambda.
+                </p>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl" role="img" aria-label="Terminal: build with Maven, then start the whole site with java -jar">
+                <div class="flex gap-1.5 px-4 py-3 border-b border-zinc-800">
+                    <span class="w-3 h-3 rounded-full bg-zinc-700"></span>
+                    <span class="w-3 h-3 rounded-full bg-zinc-700"></span>
+                    <span class="w-3 h-3 rounded-full bg-zinc-700"></span>
+                </div>
+                <pre class="p-4 sm:p-5 text-[11px] sm:text-sm leading-loose overflow-x-auto"><code><span class="text-zinc-500">$</span> ./mvnw package
+<span class="text-zinc-500">$</span> java -jar target/javaview-site.jar
+<span class="text-emerald-400">Started Application in 3.1 seconds</span>
+<span class="text-zinc-500">→</span> http://localhost:8080</code></pre>
             </div>
         </div>
     </section>
