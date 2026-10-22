@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaView — Java-First UI Platform</title>
     <link rel="stylesheet" href="/css/output.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <script src="/js/index.js" defer></script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         .font-display { font-family: 'Syne', sans-serif; }
@@ -43,18 +43,7 @@
 </head>
 <body class="bg-zinc-950 text-white">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <span class="font-display text-xl font-bold">
-                <span class="text-emerald-400">Java</span>View
-            </span>
-            <div class="flex gap-8 text-sm font-medium text-zinc-400">
-                <a href="/" class="text-white">Home</a>
-                <a href="/about" class="hover:text-white transition-colors">About</a>
-            </div>
-        </div>
-    </nav>
+    @template.layout.navbar(active = "home")
 
     <!-- Hero -->
     <section class="hero-glow min-h-screen flex items-center justify-center px-6 pt-20">
@@ -62,7 +51,7 @@
             <div class="fade-up delay-1 inline-block mb-6 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold tracking-widest uppercase">
                 Spring Boot + JTE + Tailwind
             </div>
-            <h1 class="fade-up delay-2 font-display text-6xl md:text-8xl font-extrabold leading-none mb-6 tracking-tight">
+            <h1 class="fade-up delay-2 font-display text-[10vw] sm:text-6xl md:text-8xl font-extrabold leading-none mb-6 tracking-tight">
                 Build Beautiful<br>
                 <span class="gradient-text">Java Web Apps</span>
             </h1>
@@ -113,18 +102,18 @@
 
     <!-- Stats Banner -->
     <section class="py-16 px-6 border-y border-zinc-800 bg-zinc-900/40">
-        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-8 text-center">
+        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-4 sm:gap-8 text-center">
             <div>
                 <div class="font-display text-5xl font-extrabold text-emerald-400 mb-2">0</div>
-                <div class="text-zinc-400 text-sm uppercase tracking-widest">npm packages</div>
+                <div class="text-zinc-400 text-xs sm:text-sm uppercase tracking-normal sm:tracking-widest">npm packages</div>
             </div>
             <div>
                 <div class="font-display text-5xl font-extrabold text-cyan-400 mb-2">1</div>
-                <div class="text-zinc-400 text-sm uppercase tracking-widest">JAR to deploy</div>
+                <div class="text-zinc-400 text-xs sm:text-sm uppercase tracking-normal sm:tracking-widest">JAR to deploy</div>
             </div>
             <div>
                 <div class="font-display text-5xl font-extrabold text-violet-400 mb-2">∞</div>
-                <div class="text-zinc-400 text-sm uppercase tracking-widest">possibilities</div>
+                <div class="text-zinc-400 text-xs sm:text-sm uppercase tracking-normal sm:tracking-widest">possibilities</div>
             </div>
         </div>
     </section>
@@ -140,10 +129,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-zinc-800 py-10 text-center text-zinc-500 text-sm">
-        <p>© 2026 JavaView. Built with Spring Boot + JTE + Tailwind.</p>
-    </footer>
+    @template.layout.footer()
 
 </body>
 </html>

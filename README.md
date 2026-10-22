@@ -113,12 +113,17 @@ javaview-site/
 │   └── controller/
 │       └── PageController.java           ← page route mappings
 ├── src/main/jte/
+│   ├── layout/
+│   │   ├── navbar.jte                    ← shared navbar: @template.layout.navbar(active = "home")
+│   │   └── footer.jte                    ← shared footer (year from Year.now())
 │   ├── index.jte                         ← Home page
 │   └── about.jte                         ← About page
 ├── src/main/resources/
 │   ├── static/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
-│   │   └── images/favicon/               ← favicons + site.webmanifest
+│   │   ├── js/                           ← one script per page: index.js, about.js
+│   │   ├── fonts/                        ← self-hosted Syne + DM Sans (.woff2)
+│   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest
 │   └── application.yml                   ← app config (+ application-dev/prod.yml)
 ├── docs/architecture.md                  ← three-tier design, backend, secrets, security guide
 ├── deploy/                               ← deployment notes & config per platform
@@ -130,6 +135,16 @@ javaview-site/
 ├── tailwindcss-windows-x64.exe           ← Tailwind CLI (download in Step 1, gitignored)
 └── pom.xml
 ```
+
+### Static files convention
+
+Everything in `src/main/resources/static/` is served from the site root (`static/js/about.js` → `/js/about.js`).
+
+- **`js/`** — one file per page, named after its template: `index.jte` → `js/index.js`, `about.jte` → `js/about.js`.
+  Each page loads only its own script in `<head>`: `<script src="/js/about.js" defer></script>`.
+  A new page `contact.jte` gets `js/contact.js`.
+- **`fonts/`** — self-hosted fonts (`.woff2`): Syne and DM Sans, Latin subset. Declared with `@font-face` in `input.css`, so they are part of `output.css`; no requests go to Google Fonts.
+- **`images/`** — images used by the pages; favicons stay in `images/favicon/`.
 
 ---
 

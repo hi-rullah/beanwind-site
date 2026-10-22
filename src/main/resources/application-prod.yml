@@ -1,4 +1,4 @@
-add alsoserver:
+server:
   port: ${PORT:8080}
 
 gg:

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — JavaView</title>
     <link rel="stylesheet" href="/css/output.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <script src="/js/about.js" defer></script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         .font-display { font-family: 'Syne', sans-serif; }
@@ -35,18 +35,7 @@
 </head>
 <body class="bg-zinc-950 text-white">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="font-display text-xl font-bold">
-                <span class="text-emerald-400">Java</span>View
-            </a>
-            <div class="flex gap-8 text-sm font-medium text-zinc-400">
-                <a href="/" class="hover:text-white transition-colors">Home</a>
-                <a href="/about" class="text-white">About</a>
-            </div>
-        </div>
-    </nav>
+    @template.layout.navbar(active = "about")
 
     <!-- Hero -->
     <section class="hero-glow pt-40 pb-20 px-6 text-center">
@@ -54,7 +43,7 @@
             <div class="fade-up delay-1 inline-block mb-6 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-widest uppercase">
                 Our Story
             </div>
-            <h1 class="fade-up delay-2 font-display text-6xl md:text-7xl font-extrabold leading-none mb-6 tracking-tight">
+            <h1 class="fade-up delay-2 font-display text-[10vw] sm:text-6xl md:text-7xl font-extrabold leading-none mb-6 tracking-tight">
                 Why <span class="gradient-text">JavaView</span>
             </h1>
             <p class="fade-up delay-3 text-zinc-400 text-xl font-light leading-relaxed">
@@ -103,6 +92,138 @@
         </div>
     </section>
 
+    <!-- Architecture -->
+    <section id="architecture" class="py-20 px-6 border-t border-zinc-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14">
+                <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-widest uppercase">
+                    Architecture
+                </div>
+                <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">How JavaView Works</h2>
+                <p class="text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+                    JavaView is the presentation tier of a classic three-tier application. It renders every page as HTML on the server, so the browser gets a finished page and no JavaScript framework is involved.
+                </p>
+            </div>
+
+            <!-- Diagram: stacks vertically on phones, runs left to right on large screens -->
+            <div class="flex flex-col lg:flex-row lg:items-stretch items-center gap-2" role="img" aria-label="Browser exchanges HTML with the JavaView app; the app calls a separate backend service over REST, which stores data in a database">
+
+                <!-- Browser -->
+                <div class="w-full max-w-sm lg:w-36 lg:max-w-none shrink-0 bg-zinc-900 border border-zinc-700 rounded-2xl p-5 text-center flex flex-col justify-center">
+                    <div class="text-2xl mb-2">🌐</div>
+                    <div class="font-display font-bold">Browser</div>
+                    <div class="text-zinc-500 text-xs mt-1">Phone or desktop</div>
+                </div>
+
+                <div class="flex lg:flex-col items-center justify-center gap-2 text-zinc-500 text-xs lg:px-1">
+                    <span class="text-lg text-amber-400 lg:hidden">⇅</span>
+                    <span class="text-lg text-amber-400 hidden lg:inline">⇄</span>
+                    <span class="font-mono">HTTP · HTML</span>
+                </div>
+
+                <!-- This app -->
+                <div class="w-full max-w-sm lg:max-w-none lg:flex-1 bg-zinc-900 border-2 border-amber-500/50 rounded-2xl p-5">
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <div class="font-display font-bold">JavaView app</div>
+                        <span class="text-[10px] uppercase tracking-wider text-amber-400 border border-amber-500/30 rounded-full px-2 py-0.5">This site</span>
+                    </div>
+                    <ol class="space-y-2 text-sm">
+                        <li class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
+                            <span class="text-zinc-200 font-medium">Spring MVC controller</span>
+                            <span class="block text-zinc-500 text-xs">Maps the URL and picks a template</span>
+                        </li>
+                        <li class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
+                            <span class="text-zinc-200 font-medium">JTE template</span>
+                            <span class="block text-zinc-500 text-xs">Type-safe, precompiled to Java classes</span>
+                        </li>
+                        <li class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
+                            <span class="text-zinc-200 font-medium">Tailwind CSS</span>
+                            <span class="block text-zinc-500 text-xs">One static file, built ahead of time</span>
+                        </li>
+                        <li class="bg-zinc-950 border border-dashed border-zinc-700 rounded-lg px-3 py-2">
+                            <span class="text-zinc-200 font-medium">RestClient</span>
+                            <span class="block text-zinc-500 text-xs">Ready to fetch data from the backend</span>
+                        </li>
+                    </ol>
+                    <div class="text-zinc-500 text-xs mt-4 text-center">Spring Boot 4 · Java 25 · single JAR</div>
+                </div>
+
+                <div class="flex lg:flex-col items-center justify-center gap-2 text-zinc-500 text-xs lg:px-1">
+                    <span class="text-lg text-zinc-500 lg:hidden">↓</span>
+                    <span class="text-lg text-zinc-500 hidden lg:inline">→</span>
+                    <span class="font-mono">REST · JSON</span>
+                </div>
+
+                <!-- Backend (planned) -->
+                <div class="w-full max-w-sm lg:w-40 lg:max-w-none shrink-0 border border-dashed border-zinc-700 rounded-2xl p-5 text-center flex flex-col justify-center">
+                    <div class="text-2xl mb-2">⚙️</div>
+                    <div class="font-display font-bold text-zinc-300">Backend service</div>
+                    <div class="text-zinc-500 text-xs mt-1">Business logic and REST API, in a separate repository</div>
+                </div>
+
+                <div class="flex lg:flex-col items-center justify-center gap-2 text-zinc-500 text-xs lg:px-1">
+                    <span class="text-lg lg:hidden">↓</span>
+                    <span class="text-lg hidden lg:inline">→</span>
+                    <span class="font-mono">SQL</span>
+                </div>
+
+                <!-- Database (planned) -->
+                <div class="w-full max-w-sm lg:w-32 lg:max-w-none shrink-0 border border-dashed border-zinc-700 rounded-2xl p-5 text-center flex flex-col justify-center">
+                    <div class="text-2xl mb-2">🗄️</div>
+                    <div class="font-display font-bold text-zinc-300">Database</div>
+                    <div class="text-zinc-500 text-xs mt-1">Owned by the backend</div>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-8 text-xs text-zinc-500">
+                <span class="flex items-center gap-2"><span class="w-4 h-3 rounded border-2 border-amber-500/50"></span>Live in this project</span>
+                <span class="flex items-center gap-2"><span class="w-4 h-3 rounded border border-dashed border-zinc-600"></span>Planned, not built yet</span>
+            </div>
+
+            <!-- Request lifecycle -->
+            <h3 class="font-display text-2xl font-bold text-center mt-20 mb-10">The Life of a Request</h3>
+            <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div class="font-display text-amber-400 font-bold mb-2">01</div>
+                    <div class="font-semibold mb-1">You open a page</div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">The browser sends a plain GET request, for example <code class="text-zinc-300">/about</code>.</p>
+                </li>
+                <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div class="font-display text-orange-400 font-bold mb-2">02</div>
+                    <div class="font-semibold mb-1">A controller answers</div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">A Spring MVC controller handles the URL. Later it can ask the backend for data.</p>
+                </li>
+                <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div class="font-display text-rose-400 font-bold mb-2">03</div>
+                    <div class="font-semibold mb-1">JTE renders HTML</div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">The template turns Java objects into HTML. Typos fail at compile time, not in front of users.</p>
+                </li>
+                <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div class="font-display text-pink-400 font-bold mb-2">04</div>
+                    <div class="font-semibold mb-1">The page arrives ready</div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">The browser shows finished HTML styled by one small CSS file. No client-side rendering.</p>
+                </li>
+            </ol>
+
+            <!-- Principles -->
+            <div class="grid md:grid-cols-3 gap-4 mt-12 text-sm">
+                <div class="border-l-2 border-amber-500/50 pl-4">
+                    <div class="font-semibold mb-1">Thin controllers</div>
+                    <p class="text-zinc-400 leading-relaxed">Controllers fetch data and choose a template. Business rules belong in the backend.</p>
+                </div>
+                <div class="border-l-2 border-rose-500/50 pl-4">
+                    <div class="font-semibold mb-1">No database here</div>
+                    <p class="text-zinc-400 leading-relaxed">The frontend never talks to a database directly. It asks the backend over HTTP.</p>
+                </div>
+                <div class="border-l-2 border-pink-500/50 pl-4">
+                    <div class="font-semibold mb-1">No Node.js at runtime</div>
+                    <p class="text-zinc-400 leading-relaxed">Tailwind is compiled once during development. Production runs only the JVM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Tech Stack -->
     <section class="py-20 px-6 bg-zinc-900/40 border-y border-zinc-800">
         <div class="max-w-4xl mx-auto">
@@ -141,10 +262,7 @@
         </a>
     </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-zinc-800 py-10 text-center text-zinc-500 text-sm">
-        <p>© 2026 JavaView. Built with Spring Boot + JTE + Tailwind.</p>
-    </footer>
+    @template.layout.footer()
 
 </body>
 </html>
