@@ -104,70 +104,66 @@ On a server there is no `secret.yml`; set environment variables instead (for Lam
 
 ---
 
-## Spring Security (guide — not enabled in this project)
+## Spring Security
 
-The landing page has no login, so Spring Security is **not** added. A real frontend tier with user accounts would add it here.
-The snippets below are a starting point for Spring Boot 4.1 / Spring Security 7 and are **not compiled in this repo** —
-check them against the [Spring Security reference](https://docs.spring.io/spring-security/reference/) when you use them.
+Spring Security is part of this project. For the demo it uses **form login with one in-memory user** (`demo` / `demo`);
+`/secured` is the page that requires login. Code: `config/SecurityConfig.java`, pages `login.jte` and `secured.jte`.
 
-### 1. Dependencies
+### Do not build your own user management
 
-```xml
-<!-- login, sessions, CSRF protection -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
+The in-memory demo user exists only to show how Spring Security protects a page. Storing users and passwords yourself
+means you also own password hashing, resets, account lockout, leaked-password checks, two-factor login and the
+protection of personal data — hard to get right and not recommended. Real applications should delegate sign-in to a
+proven identity provider through **OAuth2 / OpenID Connect** (GitHub, Google, Keycloak, AWS Cognito, Auth0, Okta,
+Entra ID, ...). Spring Security supports this with `oauth2Login()`; the app then never sees a password.
 
-<!-- optional: "Log in with Google / Keycloak / Cognito" (OAuth2 / OpenID Connect) -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-security-oauth2-client</artifactId>
-</dependency>
-```
-In Spring Boot 4 the OAuth2 login starter is `spring-boot-starter-security-oauth2-client`;
-the old name `spring-boot-starter-oauth2-client` still exists but is deprecated.
+### 1. What is configured
 
-As soon as `spring-boot-starter-security` is on the classpath, **every page requires login** with a generated password.
-Add a `SecurityFilterChain` to choose what stays public.
+| Rule | Paths |
+|---|---|
+| Public | `/`, `/about`, `/login`, `/error`, `/css/**`, `/js/**`, `/fonts/**`, `/images/**` |
+| Login required | everything else, e.g. `/secured` (new pages are protected by default) |
 
-### 2. Which pages are public
+- Login form: `GET /login` is our JTE page, `POST /login` is handled by Spring Security; success goes to `/secured`.
+- Logout: `POST /logout` (with CSRF token) invalidates the session, deletes `JSESSIONID` and redirects to `/`.
+- Passwords: `BCryptPasswordEncoder`; the demo password is hashed at startup.
+- Templates get the logged-in user through `security/CurrentUserAdvice` (model attribute `currentUser`),
+  which every page passes to `layout/navbar.jte`.
+- `application-prod.yml` sets `Cache-Control: max-age=3600` on static files; otherwise Spring Security marks them `no-store`.
 
-```java
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+### 2. GitHub and Google login (prepared, commented out)
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/about", "/error").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                .anyRequest().authenticated())
-            .formLogin(Customizer.withDefaults())      // or .oauth2Login(Customizer.withDefaults())
-            .logout(Customizer.withDefaults());
-        return http.build();
-    }
-}
-```
+Everything is in place but commented out, so it can be enabled in a later version:
+
+1. `pom.xml` — uncomment `spring-boot-starter-security-oauth2-client`
+   (Boot 4 name; the old `spring-boot-starter-oauth2-client` still exists but is deprecated).
+2. `application.yml` — uncomment `spring.security.oauth2.client.registration` (github, google).
+3. Register an OAuth app with each provider. Callback URL: `{base-url}/login/oauth2/code/github` (or `.../google`).
+   A GitHub OAuth App allows one callback URL, so register one for `http://localhost:8080` and one for the deployed URL.
+4. Put the client IDs and secrets in `secret.yml` locally (see `secret.example.yml`) or in environment variables on a
+   server — never in committed files.
+5. `SecurityConfig` — uncomment `.oauth2Login(...)`; `login.jte` — uncomment the "Continue with GitHub / Google" buttons.
+
+For GitHub the principal name is the numeric user ID; read the `login` attribute of the `OAuth2User` to show the username.
+Behind a proxy such as the Lambda Function URL, Spring must know the original `https` URL to build the callback URL;
+check `server.forward-headers-strategy` when testing on the deployed site.
 
 ### 3. Login options for a frontend tier
 
 | Option | When | Notes |
 |---|---|---|
-| Form login (`formLogin`) | Users/passwords managed by your own backend | Implement a `UserDetailsService` that asks the backend to verify the user |
-| OAuth2 / OpenID Connect (`oauth2Login`) | Login via Google, Keycloak, AWS Cognito, … | Provider settings go in `spring.security.oauth2.client.*`; the client secret goes in `secret.yml` / env vars |
+| OAuth2 / OpenID Connect (`oauth2Login`) | **Recommended.** Login via GitHub, Google, Keycloak, AWS Cognito, … | Provider settings in `spring.security.oauth2.client.*`; client secret in `secret.yml` / env vars |
+| Form login (`formLogin`) | Demos, or users managed by your own backend | Here: in-memory demo user. Otherwise a `UserDetailsService` that asks the backend to verify the user |
 
 ### 4. Things to keep in mind
 
 - **CSRF:** keep it enabled. Every form that POSTs must send the CSRF token as a hidden field.
-  JTE templates only see their declared `@param`s, so pass the token in explicitly — e.g. a `@ControllerAdvice` that adds
-  the `CsrfToken` (request attribute `_csrf`) to the model, then in the template:
+  JTE templates only see their declared `@param`s, so the controller adds the `CsrfToken` to the model
+  (see `PageController` for `/login` and `/secured`), then in the template:
   `<input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">`.
 - **Calling the backend as the user:** with OAuth2 login, forward the user's access token to the backend
   (`Authorization: Bearer …`) so the backend can authorize each call; the static `X-API-Key` only identifies this frontend app.
 - **Sessions on AWS Lambda:** the default HTTP session lives in memory, and Lambda runs many short-lived instances,
-  so a user could be "logged out" when a request hits another instance. Use an external session store
-  (Spring Session with Redis/DynamoDB/JDBC) or a deployment with long-lived instances before adding login.
+  so a user can be "logged out" when a request hits another instance. Accepted for the demo deployment; for real use,
+  add an external session store (Spring Session with Redis/JDBC) or deploy with long-lived instances.
 - **Dev tools:** keep dev-only settings in `application-dev.yml`; never disable security in `prod`.

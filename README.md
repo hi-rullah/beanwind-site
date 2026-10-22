@@ -16,9 +16,9 @@ Browser ──▶ javaview-site (THIS REPO)  ──REST──▶  Backend servic
 
 - Pages are rendered here with JTE; data comes from the backend over HTTP (`backend.base-url` in `application.yml`).
 - Local secrets go in `secret.yml` (gitignored) — copy `secret.example.yml` to start.
-- Spring Security is not enabled yet; how to add it is described in the guide.
+- Spring Security protects `/secured` with a public demo account (`demo` / `demo`). GitHub and Google login (OAuth2) are prepared but commented out — real apps should use OAuth2 instead of storing users themselves.
 
-Details: [`docs/architecture.md`](docs/architecture.md) — tiers, backend connection, secrets, Spring Security guide.
+Details: [`docs/architecture.md`](docs/architecture.md) — tiers, backend connection, secrets, Spring Security.
 
 ---
 
@@ -109,19 +109,26 @@ javaview-site/
 │   ├── Application.java                  ← Spring Boot entry point
 │   ├── config/
 │   │   ├── BackendProperties.java        ← backend.* settings
-│   │   └── BackendClientConfig.java      ← RestClient for the backend service
-│   └── controller/
-│       └── PageController.java           ← page route mappings
+│   │   ├── BackendClientConfig.java      ← RestClient for the backend service
+│   │   └── SecurityConfig.java           ← Spring Security: public pages, demo user, (commented) OAuth2
+│   ├── page/
+│   │   └── PageController.java           ← page route mappings
+│   └── security/
+│       ├── CurrentUser.java              ← logged-in user as the templates see it
+│       └── CurrentUserAdvice.java        ← adds currentUser to every page's model
 ├── src/main/jte/
 │   ├── layout/
-│   │   ├── navbar.jte                    ← shared navbar: @template.layout.navbar(active = "home")
-│   │   └── footer.jte                    ← shared footer (year from Year.now())
+│   │   ├── page.jte                      ← shared page layout: <head>, navbar, content, footer
+│   │   ├── navbar.jte                    ← shared navbar (included by page.jte)
+│   │   └── footer.jte                    ← shared footer, year from Year.now() (included by page.jte)
 │   ├── index.jte                         ← Home page
-│   └── about.jte                         ← About page
+│   ├── about.jte                         ← About page
+│   ├── login.jte                         ← Sign-in page (demo / demo)
+│   └── secured.jte                       ← Page that requires login
 ├── src/main/resources/
 │   ├── static/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
-│   │   ├── js/                           ← one script per page: index.js, about.js
+│   │   ├── js/                           ← one script per page: index.js, about.js, login.js, secured.js
 │   │   ├── fonts/                        ← self-hosted Syne + DM Sans (.woff2)
 │   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest
 │   └── application.yml                   ← app config (+ application-dev/prod.yml)

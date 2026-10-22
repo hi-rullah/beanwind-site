@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaView — Java-First UI Platform</title>
-    <link rel="stylesheet" href="/css/output.css">
-    <script src="/js/index.js" defer></script>
+@import com.javaview.security.CurrentUser
+@param CurrentUser currentUser
+
+@template.layout.page(
+    title = "JavaView — Java-First UI Platform",
+    page = "index",
+    active = "home",
+    currentUser = currentUser,
+    style = @`
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
-        .font-display { font-family: 'Syne', sans-serif; }
         .gradient-text {
             background: linear-gradient(135deg, #34d399, #06b6d4, #818cf8);
             -webkit-background-clip: text;
@@ -35,16 +34,8 @@
         .delay-3 { animation-delay: 0.4s; opacity: 0; }
         .delay-4 { animation-delay: 0.55s; opacity: 0; }
     </style>
-    <link rel="icon" type="image/png" href="/images/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/images/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="/images/favicon/site.webmanifest" />
-</head>
-<body class="bg-zinc-950 text-white">
-
-    @template.layout.navbar(active = "home")
-
+    `,
+    content = @`
     <!-- Hero -->
     <section class="hero-glow min-h-screen flex items-center justify-center px-6 pt-20">
         <div class="max-w-4xl mx-auto text-center">
@@ -128,8 +119,4 @@
             </a>
         </div>
     </section>
-
-    @template.layout.footer()
-
-</body>
-</html>
+`)

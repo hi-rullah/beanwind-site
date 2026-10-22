@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @source "../src/main/jte";
 
+/* font-sans is the default body font; font-display is the Syne heading font (class "font-display") */
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Self-hosted fonts (static/fonts/), Latin subset from Google Fonts. Both are variable fonts:
    one file covers the whole weight range. */
 @font-face {

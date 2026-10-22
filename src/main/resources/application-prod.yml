@@ -1,6 +1,14 @@
 server:
   port: ${PORT:8080}
 
+spring:
+  web:
+    resources:
+      cache:
+        # Let browsers cache css/js/fonts/images; Spring Security would otherwise send "no-store"
+        cachecontrol:
+          max-age: 1h
+
 gg:
   jte:
     development-mode: false

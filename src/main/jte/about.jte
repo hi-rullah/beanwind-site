@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — JavaView</title>
-    <link rel="stylesheet" href="/css/output.css">
-    <script src="/js/about.js" defer></script>
+@import com.javaview.security.CurrentUser
+@param CurrentUser currentUser
+
+@template.layout.page(
+    title = "About — JavaView",
+    page = "about",
+    active = "about",
+    currentUser = currentUser,
+    style = @`
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
-        .font-display { font-family: 'Syne', sans-serif; }
         .gradient-text {
             background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
             -webkit-background-clip: text;
@@ -27,16 +26,8 @@
         .delay-2 { animation-delay: 0.2s; opacity: 0; }
         .delay-3 { animation-delay: 0.35s; opacity: 0; }
     </style>
-    <link rel="icon" type="image/png" href="/images/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/images/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="/images/favicon/site.webmanifest" />
-</head>
-<body class="bg-zinc-950 text-white">
-
-    @template.layout.navbar(active = "about")
-
+    `,
+    content = @`
     <!-- Hero -->
     <section class="hero-glow pt-40 pb-20 px-6 text-center">
         <div class="max-w-3xl mx-auto">
@@ -261,8 +252,4 @@
             ← Back to Home
         </a>
     </section>
-
-    @template.layout.footer()
-
-</body>
-</html>
+`)

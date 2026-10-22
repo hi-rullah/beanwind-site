@@ -27,6 +27,19 @@
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Login with GitHub / Google (OAuth2 / OpenID Connect). Prepared, not enabled: see SecurityConfig.
+             Boot 4 name; the old spring-boot-starter-oauth2-client is deprecated. -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-client</artifactId>
+        </dependency>
+        -->
+
+        <dependency>
             <groupId>gg.jte</groupId>
             <artifactId>jte-spring-boot-starter-4</artifactId>
             <version>${jte.version}</version>

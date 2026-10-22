@@ -6,6 +6,24 @@ spring:
     # On a server, use environment variables instead, e.g. BACKEND_API_KEY.
     import: optional:file:./secret.yml
 
+  # Login with GitHub / Google — prepared, not enabled (see SecurityConfig for all steps).
+  # Spring Security already knows both providers' endpoints, so only the client ID/secret are needed.
+  # Callback URL to register with the provider: {base-url}/login/oauth2/code/github (or .../google),
+  # e.g. http://localhost:8080/login/oauth2/code/github. A GitHub OAuth App allows one callback URL,
+  # so register one app for localhost and one for the deployed URL.
+  # Secrets: secret.yml locally, environment variables on a server — never commit them.
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          github:            # GitHub → Settings → Developer settings → OAuth Apps
+  #            client-id: ${GITHUB_CLIENT_ID}
+  #            client-secret: ${GITHUB_CLIENT_SECRET}
+  #          google:            # Google Cloud Console → APIs & Services → Credentials → OAuth client ID
+  #            client-id: ${GOOGLE_CLIENT_ID}
+  #            client-secret: ${GOOGLE_CLIENT_SECRET}
+  #            scope: openid, profile, email
+
 # Backend service (separate repo) that this frontend calls over HTTP. See docs/architecture.md
 backend:
   base-url: ${BACKEND_BASE_URL:http://localhost:8081}
