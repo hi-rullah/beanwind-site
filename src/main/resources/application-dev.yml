@@ -5,3 +5,14 @@ gg:
   jte:
     development-mode: true
     use-precompiled-templates: false
+
+# Log files, dev only (see logback-spring.xml): log/app.log and log/visitor.log, rolled daily, kept 30 days.
+# Prod (AWS Lambda) logs to the console only; CloudWatch stores the logs, retention is set on the log group.
+logging:
+  file:
+    path: log
+  logback:
+    rollingpolicy:
+      max-history: 30
+      max-file-size: 10MB
+      total-size-cap: 500MB

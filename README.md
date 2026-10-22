@@ -137,7 +137,8 @@ javaview-site/
 │   │   ├── js/                           ← one script per page (index.js, about.js, ...); layout/ for layout scripts (consent.js)
 │   │   ├── fonts/                        ← self-hosted Syne + DM Sans (.woff2)
 │   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest
-│   └── application.yml                   ← app config (+ application-dev/prod.yml)
+│   ├── application.yml                   ← app config (+ application-dev/prod.yml)
+│   └── logback-spring.xml                ← dev: log/app.log + log/visitor.log (30 days); prod: console
 ├── docs/architecture.md                  ← three-tier design, backend, secrets, security guide
 ├── deploy/                               ← deployment notes & config per platform
 ├── secret.example.yml                    ← template for secret.yml (gitignored local secrets)

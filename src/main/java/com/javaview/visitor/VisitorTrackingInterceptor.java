@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.UUID;
 
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -47,11 +49,19 @@ public class VisitorTrackingInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return; // static resources
         }
+        boolean errorDispatch = request.getDispatcherType() == DispatcherType.ERROR;
+        if (ex != null && !errorDispatch) {
+            return; // the container forwards to /error next; that dispatch logs the request with its real status
+        }
+        // For /error, log the page that failed (e.g. path=/missing status=404), not "/error"
+        String path = errorDispatch ? (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI) : request.getRequestURI();
+        Object status = errorDispatch ? request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE) : response.getStatus();
+
         Principal user = request.getUserPrincipal();
         log.info("page_view method={} path={} status={} visitor={} user={} ip={} referer=\"{}\" ua=\"{}\"",
                 request.getMethod(),
-                clean(request.getRequestURI()),
-                response.getStatus(),
+                clean(path),
+                status,
                 orDash((String) request.getAttribute(VISITOR_ATTRIBUTE)),
                 user == null ? "-" : clean(user.getName()),
                 anonymizeIp(clientIp(request)),

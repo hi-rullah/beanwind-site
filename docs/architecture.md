@@ -191,6 +191,22 @@ page_view method=GET path=/about status=200 visitor=- user=- ip=203.0.113.0 refe
 - The `/privacy` page explains all of this to visitors. **Keep it in sync with the code**, including the log retention
   it promises (30 days): set the Lambda log group retention accordingly.
 
+**Where the logs go**
+
+| Profile | Output | Retention |
+|---|---|---|
+| `dev` | console + `log/app.log` (application, security events) + `log/visitor.log` (page views only) | daily files, 30 days (`application-dev.yml`) |
+| `prod` (AWS Lambda) | console only; Lambda sends it to CloudWatch Logs | set on the log group (30 days) |
+
+Page views get their own file because they contain personal data (visitor ID, anonymized IP, username), so their
+retention and deletion can be handled separately from application logs. The setup is in `logback-spring.xml`;
+folder and retention are configured in `application-dev.yml` (`logging.file.path`, `logging.logback.rollingpolicy.*`).
+On Lambda no files are written: the disk is read-only and temporary, and the platform stores console output.
+
+Do **not** send each page view to the backend over HTTP: it adds a network call to every page and makes pages depend
+on the backend. To get visitor data into a database later, ship the `visitor` log lines asynchronously
+(e.g. CloudWatch → Firehose → S3, or a queue the backend reads).
+
 On AWS Lambda the lines go to CloudWatch Logs. Example CloudWatch Logs Insights queries:
 
 ```
