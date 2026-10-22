@@ -239,31 +239,41 @@
         <div class="max-w-5xl mx-auto">
             <h2 class="font-display text-3xl font-bold text-center mb-12">The Stack</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                <a href="https://spring.io/projects/spring-boot/" target="_blank" rel="noopener noreferrer"
+                   class="block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-6 text-center transition-colors">
                     <div class="text-3xl mb-3">🍃</div>
                     <div class="font-display font-bold mb-1">Spring Boot</div>
                     <div class="text-zinc-500 text-xs">Foundation</div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                    <div class="text-zinc-400 text-xs mt-3">spring.io <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></div>
+                </a>
+                <a href="https://spring.io/projects/spring-security/" target="_blank" rel="noopener noreferrer"
+                   class="block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-6 text-center transition-colors">
                     <div class="text-3xl mb-3">🔒</div>
                     <div class="font-display font-bold mb-1">Spring Security</div>
                     <div class="text-zinc-500 text-xs">Security</div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                    <div class="text-zinc-400 text-xs mt-3">spring.io <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></div>
+                </a>
+                <a href="https://jte.gg/" target="_blank" rel="noopener noreferrer"
+                   class="block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-6 text-center transition-colors">
                     <div class="text-3xl mb-3">📄</div>
                     <div class="font-display font-bold mb-1">JTE</div>
                     <div class="text-zinc-500 text-xs">Templates</div>
-                </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                    <div class="text-zinc-400 text-xs mt-3">jte.gg <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></div>
+                </a>
+                <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer"
+                   class="block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-6 text-center transition-colors">
                     <div class="text-3xl mb-3">🎨</div>
                     <div class="font-display font-bold mb-1">Tailwind</div>
                     <div class="text-zinc-500 text-xs">Styling</div>
-                </div>
-                <div class="col-span-2 md:col-span-1 bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                    <div class="text-zinc-400 text-xs mt-3">tailwindcss.com <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></div>
+                </a>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer"
+                   class="col-span-2 md:col-span-1 block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-6 text-center transition-colors">
                     <div class="text-3xl mb-3">⚡</div>
                     <div class="font-display font-bold mb-1">Vanilla JS</div>
                     <div class="text-zinc-500 text-xs">Interactivity</div>
-                </div>
+                    <div class="text-zinc-400 text-xs mt-3">MDN <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></div>
+                </a>
             </div>
         </div>
     </section>
