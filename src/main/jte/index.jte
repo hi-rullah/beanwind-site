@@ -71,7 +71,7 @@
                 <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Everything You Need</h2>
                 <p class="text-zinc-400 text-lg">A focused stack. No bloat. No JavaScript fatigue.</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Card 1 -->
                 <div class="card-hover flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
                     <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6 text-2xl">🍃</div>
@@ -97,8 +97,18 @@
                     <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-6 text-2xl">⚡</div>
                     <h3 class="font-display text-xl font-bold mb-3">Spring Boot</h3>
                     <p class="text-zinc-400 leading-relaxed">Deploy as a single JAR. No Node server. No build pipeline. Just run and it works.</p>
-                    <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noopener noreferrer"
+                    <a href="https://spring.io/projects/spring-boot/" target="_blank" rel="noopener noreferrer"
                        class="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-violet-400 hover:text-violet-300 transition-colors">
+                        spring.io <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
+                    </a>
+                </div>
+                <!-- Card 4 -->
+                <div class="card-hover flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-6 text-2xl">🔒</div>
+                    <h3 class="font-display text-xl font-bold mb-3">Spring Security</h3>
+                    <p class="text-zinc-400 leading-relaxed">Sign-in, sessions and CSRF protection out of the box. Proven security instead of home-made code.</p>
+                    <a href="https://spring.io/projects/spring-security/" target="_blank" rel="noopener noreferrer"
+                       class="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors">
                         spring.io <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
                     </a>
                 </div>
