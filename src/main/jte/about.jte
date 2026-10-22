@@ -25,6 +25,7 @@
         .delay-1 { animation-delay: 0.1s; opacity: 0; }
         .delay-2 { animation-delay: 0.2s; opacity: 0; }
         .delay-3 { animation-delay: 0.35s; opacity: 0; }
+        .delay-4 { animation-delay: 0.5s; opacity: 0; }
     </style>
     `,
     content = @`
@@ -40,6 +41,11 @@
             <p class="fade-up delay-3 text-zinc-400 text-xl font-light leading-relaxed">
                 We believe Java teams shouldn't have to learn an entirely different ecosystem just to build a great UI. JavaView brings modern web design to the JVM — no compromise.
             </p>
+            <div class="fade-up delay-4 mt-10">
+                <a href="#architecture" class="inline-block px-8 py-3.5 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-semibold rounded-full transition-all duration-200">
+                    See Architecture
+                </a>
+            </div>
         </div>
     </section>
 
@@ -84,7 +90,7 @@
     </section>
 
     <!-- Architecture -->
-    <section id="architecture" class="py-20 px-6 border-t border-zinc-800">
+    <section id="architecture" class="py-20 px-6 border-t border-zinc-800 scroll-mt-16">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-14">
                 <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-widest uppercase">
@@ -97,7 +103,7 @@
             </div>
 
             <!-- Diagram: stacks vertically on phones, runs left to right on large screens -->
-            <div class="flex flex-col lg:flex-row lg:items-stretch items-center gap-2" role="img" aria-label="Browser exchanges HTML with the JavaView app; the app calls a separate backend service over REST, which stores data in a database">
+            <div class="flex flex-col lg:flex-row lg:items-stretch items-center gap-2" role="img" aria-label="Browser exchanges HTML with the JavaView app, where Spring Security checks each request before a controller renders the page; the app calls a separate backend service over REST, which stores data in a database">
 
                 <!-- Browser -->
                 <div class="w-full max-w-sm lg:w-36 lg:max-w-none shrink-0 bg-zinc-900 border border-zinc-700 rounded-2xl p-5 text-center flex flex-col justify-center">
@@ -119,6 +125,10 @@
                         <span class="text-[10px] uppercase tracking-wider text-amber-400 border border-amber-500/30 rounded-full px-2 py-0.5">This site</span>
                     </div>
                     <ol class="space-y-2 text-sm">
+                        <li class="bg-zinc-950 border border-emerald-500/30 rounded-lg px-3 py-2">
+                            <span class="text-zinc-200 font-medium">🔒 Spring Security</span>
+                            <span class="block text-zinc-500 text-xs">Checks every request: login, session, CSRF</span>
+                        </li>
                         <li class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
                             <span class="text-zinc-200 font-medium">Spring MVC controller</span>
                             <span class="block text-zinc-500 text-xs">Maps the URL and picks a template</span>
@@ -174,31 +184,36 @@
 
             <!-- Request lifecycle -->
             <h3 class="font-display text-2xl font-bold text-center mt-20 mb-10">The Life of a Request</h3>
-            <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
                     <div class="font-display text-amber-400 font-bold mb-2">01</div>
                     <div class="font-semibold mb-1">You open a page</div>
                     <p class="text-zinc-400 text-sm leading-relaxed">The browser sends a plain GET request, for example <code class="text-zinc-300">/about</code>.</p>
                 </li>
                 <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-                    <div class="font-display text-orange-400 font-bold mb-2">02</div>
+                    <div class="font-display text-emerald-400 font-bold mb-2">02</div>
+                    <div class="font-semibold mb-1">Spring Security checks it</div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Public pages pass straight through. <code class="text-zinc-300">/secured</code> sends you to sign in first.</p>
+                </li>
+                <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div class="font-display text-orange-400 font-bold mb-2">03</div>
                     <div class="font-semibold mb-1">A controller answers</div>
                     <p class="text-zinc-400 text-sm leading-relaxed">A Spring MVC controller handles the URL. Later it can ask the backend for data.</p>
                 </li>
                 <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-                    <div class="font-display text-rose-400 font-bold mb-2">03</div>
+                    <div class="font-display text-rose-400 font-bold mb-2">04</div>
                     <div class="font-semibold mb-1">JTE renders HTML</div>
                     <p class="text-zinc-400 text-sm leading-relaxed">The template turns Java objects into HTML. Typos fail at compile time, not in front of users.</p>
                 </li>
                 <li class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-                    <div class="font-display text-pink-400 font-bold mb-2">04</div>
+                    <div class="font-display text-pink-400 font-bold mb-2">05</div>
                     <div class="font-semibold mb-1">The page arrives ready</div>
                     <p class="text-zinc-400 text-sm leading-relaxed">The browser shows finished HTML styled by one small CSS file. No client-side rendering.</p>
                 </li>
             </ol>
 
             <!-- Principles -->
-            <div class="grid md:grid-cols-3 gap-4 mt-12 text-sm">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 text-sm">
                 <div class="border-l-2 border-amber-500/50 pl-4">
                     <div class="font-semibold mb-1">Thin controllers</div>
                     <p class="text-zinc-400 leading-relaxed">Controllers fetch data and choose a template. Business rules belong in the backend.</p>
@@ -210,6 +225,10 @@
                 <div class="border-l-2 border-pink-500/50 pl-4">
                     <div class="font-semibold mb-1">No Node.js at runtime</div>
                     <p class="text-zinc-400 leading-relaxed">Tailwind is compiled once during development. Production runs only the JVM.</p>
+                </div>
+                <div class="border-l-2 border-emerald-500/50 pl-4">
+                    <div class="font-semibold mb-1">Proven security</div>
+                    <p class="text-zinc-400 leading-relaxed">Sign-in, sessions and CSRF protection come from Spring Security, not home-made code.</p>
                 </div>
             </div>
         </div>
