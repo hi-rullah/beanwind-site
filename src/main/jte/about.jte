@@ -236,13 +236,18 @@
 
     <!-- Tech Stack -->
     <section class="py-20 px-6 bg-zinc-900/40 border-y border-zinc-800">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-5xl mx-auto">
             <h2 class="font-display text-3xl font-bold text-center mb-12">The Stack</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
                     <div class="text-3xl mb-3">🍃</div>
                     <div class="font-display font-bold mb-1">Spring Boot</div>
                     <div class="text-zinc-500 text-xs">Foundation</div>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                    <div class="text-3xl mb-3">🔒</div>
+                    <div class="font-display font-bold mb-1">Spring Security</div>
+                    <div class="text-zinc-500 text-xs">Security</div>
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
                     <div class="text-3xl mb-3">📄</div>
@@ -254,7 +259,7 @@
                     <div class="font-display font-bold mb-1">Tailwind</div>
                     <div class="text-zinc-500 text-xs">Styling</div>
                 </div>
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                <div class="col-span-2 md:col-span-1 bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
                     <div class="text-3xl mb-3">⚡</div>
                     <div class="font-display font-bold mb-1">Vanilla JS</div>
                     <div class="text-zinc-500 text-xs">Interactivity</div>
