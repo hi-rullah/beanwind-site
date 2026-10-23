@@ -94,9 +94,9 @@ This deletes the `javaview-site` stack. The `aws-sam-cli-managed-default` stack 
 | Full Spring Boot init (only at deploy, while SnapStart builds the snapshot) | ~6.5 s |
 | Cold start with SnapStart restore | ~0.75 s |
 | Warm request (server side) | 5–70 ms |
-| Memory used | ~190 MB of 1024 MB |
+| Memory used | ~190 MB (of 1024 MB at the time; now 512 MB) |
 
-1024 MB is kept because Lambda CPU scales with memory (faster restore). Lowering to 512 MB would halve the cost per ms — test cold starts if you try it.
+Memory is 512 MB since Oct 23, 2026: half the cost per ms. Lambda CPU scales with memory, so cold starts (SnapStart restore) are slower; that's accepted for a demo.
 
 ## Notes & gotchas
 - **Read-only filesystem:** only `/tmp` is writable on Lambda. JTE must use **precompiled templates** (`prod` profile) — dev mode would try to write compiled classes to disk.
@@ -104,7 +104,7 @@ This deletes the `javaview-site` stack. The `aws-sam-cli-managed-default` stack 
 - **SnapStart applies only to published versions**, which is why the template uses `AutoPublishAlias: live` and the Function URL points at the alias. Code that must be unique per instance (random seeds, IDs, open connections) shouldn't be created at startup — this site has none.
 - **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front (also caches `output.css` / favicons).
 - **No rate limiting/WAF** on Function URLs — add CloudFront + WAF if the site ever gets abuse traffic.
-- **Cost cap:** `ReservedConcurrentExecutions: 5` in `template.yaml` lets at most 5 requests run at once; more get
+- **Cost cap:** `ReservedConcurrentExecutions: 10` in `template.yaml` lets at most 10 requests run at once; more get
   `429 Too Many Requests`. This limits how fast abuse can cost money, it does not make it free, so also set an
   AWS Budgets alert (Billing console → Budgets) to get an email when spending starts.
 - **Compression:** `AWS_LWA_ENABLE_COMPRESSION=true` lets the adapter gzip responses (home page 7.9 KB → 2.3 KB).
