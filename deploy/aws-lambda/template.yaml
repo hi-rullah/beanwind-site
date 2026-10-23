@@ -2,6 +2,13 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: JavaView Site - Spring Boot + JTE on AWS Lambda (Lambda Web Adapter + SnapStart)
 
+Parameters:
+  AuthCookieSecret:
+    Type: String
+    NoEcho: true                          # hidden in CloudFormation output and console
+    MinLength: 32
+    Description: Signs the login cookie (auth.cookie-secret). Pass once with --parameter-overrides; later deploys reuse it.
+
 Resources:
   JavaViewFunction:
     Type: AWS::Serverless::Function
@@ -22,6 +29,7 @@ Resources:
           AWS_LWA_PORT: '8080'
           AWS_LWA_READINESS_CHECK_PATH: /
           AWS_LWA_ENABLE_COMPRESSION: 'true'
+          AUTH_COOKIE_SECRET: !Ref AuthCookieSecret
       SnapStart:
         ApplyOn: PublishedVersions
       AutoPublishAlias: live              # SnapStart only applies to published versions

@@ -12,6 +12,11 @@ spring:
         cachecontrol:
           max-age: 1h
 
+# Signs the login cookie (see SignedCookieSecurityContextRepository). Required in prod, and every instance must use
+# the same value. Provided by the deployment as the AUTH_COOKIE_SECRET environment variable.
+auth:
+  cookie-secret: ${AUTH_COOKIE_SECRET}
+
 gg:
   jte:
     development-mode: false

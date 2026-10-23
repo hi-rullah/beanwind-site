@@ -52,6 +52,10 @@ deploy\aws-lambda\deploy.cmd
 It runs `mvnw clean package`, copies `target\javaview-site.jar` + `run.sh` into `target\lambda\`, then `sam deploy`,
 which shows the changeset and asks for confirmation (`confirm_changeset = true`).
 
+- **Login cookie secret:** the template has a `AuthCookieSecret` parameter (becomes `AUTH_COOKIE_SECRET`, see
+  `application-prod.yml`). Pass it on the **first** deploy, or to change it (signs everyone out):
+  `deployws-lambda\deploy.cmd --parameter-overrides AuthCookieSecret=<64 random hex chars>`.
+  Later deploys without it reuse the stored value. Never put it in `samconfig.toml` (committed).
 - Extra arguments are passed to `sam deploy` — preview only, without applying:
   `deploy\aws-lambda\deploy.cmd --no-execute-changeset`
 - `sam build` is **not** used — the script already produces the deployable package.

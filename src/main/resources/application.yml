@@ -24,6 +24,17 @@ spring:
   #            client-secret: ${GOOGLE_CLIENT_SECRET}
   #            scope: openid, profile, email
 
+server:
+  error:
+    whitelabel:
+      # Show our error.jte page instead of Spring Boot's "Whitelabel Error Page"
+      enabled: false
+
+# Key that signs the login cookie, at least 32 characters. Not set locally: a random key is used (sign-ins are lost
+# on restart). Prod requires it, see application-prod.yml. Can also be set in secret.yml.
+# auth:
+#   cookie-secret: ...
+
 # Backend service (separate repo) that this frontend calls over HTTP. See docs/architecture.md
 backend:
   base-url: ${BACKEND_BASE_URL:http://localhost:8081}

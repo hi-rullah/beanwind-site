@@ -66,7 +66,7 @@
                 </li>
                 <li class="flex gap-4">
                     <span class="font-display text-emerald-400 font-bold shrink-0">03</span>
-                    <p class="text-zinc-400 leading-relaxed"><span class="text-zinc-200 font-medium">Started a session.</span> A session cookie keeps you signed in, and a new session ID is issued at login to prevent session fixation.</p>
+                    <p class="text-zinc-400 leading-relaxed"><span class="text-zinc-200 font-medium">Remembered you.</span> A signed cookie keeps you signed in. The signature means it cannot be edited or forged, and any server instance can check it, so no server memory is needed.</p>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-display text-emerald-400 font-bold shrink-0">04</span>
@@ -81,9 +81,6 @@
                 </button>
             </form>
 
-            <p class="text-zinc-500 text-xs text-center mt-10 leading-relaxed">
-                Demo note: sessions are kept in server memory. On the hosted demo you may occasionally be signed out and need to sign in again.
-            </p>
         </div>
     </section>
 `)

@@ -125,7 +125,12 @@ Entra ID, ...). Spring Security supports this with `oauth2Login()`; the app then
 | Login required | everything else, e.g. `/secured` (new pages are protected by default) |
 
 - Login form: `GET /login` is our JTE page, `POST /login` is handled by Spring Security; success goes to `/secured`.
-- Logout: `POST /logout` (with CSRF token) invalidates the session, deletes `JSESSIONID` and redirects to `/`.
+- Logout: `POST /logout` (with CSRF token) deletes the `jv_auth` cookie and redirects to `/`.
+- No HTTP session (`STATELESS`): the signed-in user is kept in the `jv_auth` cookie, signed with HMAC-SHA256
+  (`security/SignedCookieSecurityContextRepository`), and the CSRF token in the `jv_csrf` cookie. Any instance can
+  check both, so the app runs on any number of instances (see below). The signing key is `auth.cookie-secret`: required in prod
+  (`AUTH_COOKIE_SECRET`), random per start locally when not set.
+- Errors render `error.jte` (`server.error.whitelabel.enabled: false` in `application.yml`).
 - Passwords: `BCryptPasswordEncoder`; the demo password is hashed at startup.
 - Templates get the logged-in user through `security/CurrentUserAdvice` (model attribute `currentUser`),
   which every page passes to `layout/navbar.jte`.
@@ -163,9 +168,11 @@ check `server.forward-headers-strategy` when testing on the deployed site.
   `<input type="hidden" name="${csrf.getParameterName()}" value="${csrf.getToken()}">`.
 - **Calling the backend as the user:** with OAuth2 login, forward the user's access token to the backend
   (`Authorization: Bearer …`) so the backend can authorize each call; the static `X-API-Key` only identifies this frontend app.
-- **Sessions on AWS Lambda:** the default HTTP session lives in memory, and Lambda runs many short-lived instances,
-  so a user can be "logged out" when a request hits another instance. Accepted for the demo deployment; for real use,
-  add an external session store (Spring Session with Redis/JDBC) or deploy with long-lived instances.
+- **Why no HTTP session:** the default session lives in one instance's memory. As soon as more than one instance
+  serves the app (load balancer, autoscaling, serverless), a request can reach an instance that does not know the
+  session: the CSRF token is missing (403 on `POST /login`) and sign-ins are randomly lost. Cookies travel with every
+  request, so they work on any instance. The cookie only holds the username and authorities; if more per-user state is ever needed, use an external
+  session store (Spring Session with Redis/JDBC) instead.
 - **Dev tools:** keep dev-only settings in `application-dev.yml`; never disable security in `prod`.
 
 ---

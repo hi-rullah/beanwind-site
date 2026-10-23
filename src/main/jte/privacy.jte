@@ -33,14 +33,22 @@
             </p>
 
             <h2 id="cookies" class="font-display text-2xl font-bold mb-4 scroll-mt-28">Cookies</h2>
-            <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
-                        <code class="text-zinc-200 text-sm">JSESSIONID</code>
+                        <code class="text-zinc-200 text-sm">jv_auth</code>
                         <span class="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">Necessary</span>
                     </div>
-                    <p class="text-zinc-400 text-sm leading-relaxed">Keeps you signed in and protects forms. Set when you open the sign-in page.</p>
-                    <p class="text-zinc-500 text-xs mt-2">Duration: until you sign out or close the browser</p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Keeps you signed in. Only set when you sign in.</p>
+                    <p class="text-zinc-500 text-xs mt-2">Duration: until you sign out or close the browser, at most 8 hours</p>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <code class="text-zinc-200 text-sm">jv_csrf</code>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">Necessary</span>
+                    </div>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Protects forms against forged requests. Set when you open the sign-in page.</p>
+                    <p class="text-zinc-500 text-xs mt-2">Duration: until you close the browser</p>
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
