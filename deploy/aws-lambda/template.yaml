@@ -20,6 +20,9 @@ Resources:
       Architectures: [arm64]
       MemorySize: 1024
       Timeout: 30
+      # Cost cap for a public demo: at most 5 requests run at once, the rest get 429 Too Many Requests.
+      # One page load needs a few parallel requests (html, css, js, fonts), so don't go much lower.
+      ReservedConcurrentExecutions: 5
       Layers:
         # AWS Lambda Web Adapter: turns Lambda events into HTTP requests on port 8080
         - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerArm64:30

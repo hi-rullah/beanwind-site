@@ -104,6 +104,9 @@ This deletes the `javaview-site` stack. The `aws-sam-cli-managed-default` stack 
 - **SnapStart applies only to published versions**, which is why the template uses `AutoPublishAlias: live` and the Function URL points at the alias. Code that must be unique per instance (random seeds, IDs, open connections) shouldn't be created at startup — this site has none.
 - **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front (also caches `output.css` / favicons).
 - **No rate limiting/WAF** on Function URLs — add CloudFront + WAF if the site ever gets abuse traffic.
+- **Cost cap:** `ReservedConcurrentExecutions: 5` in `template.yaml` lets at most 5 requests run at once; more get
+  `429 Too Many Requests`. This limits how fast abuse can cost money, it does not make it free, so also set an
+  AWS Budgets alert (Billing console → Budgets) to get an email when spending starts.
 - **Compression:** `AWS_LWA_ENABLE_COMPRESSION=true` lets the adapter gzip responses (home page 7.9 KB → 2.3 KB).
 - **Cost:** Lambda free tier = 1M requests + 400,000 GB-s per month; Function URLs are free. SnapStart is free for Java. Expect ~$0 for a landing page.
 - **Behind a proxy: `server.forward-headers-strategy: native`** (`application-prod.yml`). The Function URL and the
