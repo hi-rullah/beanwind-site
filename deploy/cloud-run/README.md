@@ -8,7 +8,8 @@ Cloud Run needs **no extra files** in this project: `gcloud run deploy --source 
 with Google Cloud buildpacks (Maven, using the included `mvnw`) and runs the jar. The app is ready for it because of:
 
 1. **Port handling** — `server.port: ${PORT:8080}` in `application-prod.yml` binds to the port Cloud Run injects.
-2. **Profiles** — `prod` is the default profile (`application.yml`) with production settings in `application-prod.yml`.
+2. **Profiles** — `application.yml` defaults to `dev`; the deployment selects `prod` (`application-prod.yml`) with the
+   `SPRING_PROFILES_ACTIVE=prod` environment variable. `prod` also requires `AUTH_COOKIE_SECRET` (login cookie key).
 3. **JTE precompilation** — templates are precompiled during the Maven build, so nothing is compiled at runtime.
 
 ## First deployment (Cloud Shell)
@@ -21,10 +22,11 @@ with Google Cloud buildpacks (Maven, using the included `mvnw`) and runs the jar
 
 2. Deploy:
    ```bash
-   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated
+   gcloud run deploy javaview --source . --region us-central1 --allow-unauthenticated      --set-env-vars SPRING_PROFILES_ACTIVE=prod,AUTH_COOKIE_SECRET=$(openssl rand -hex 32)
    ```
    - `--source .` — build from source, no Dockerfile needed
    - `--allow-unauthenticated` — public site
+   - `--set-env-vars` — only needed on the first deploy; later revisions keep the variables
 
 ## Redeployment
 

@@ -1,6 +1,8 @@
 spring:
   profiles:
-    active: prod
+    # Default for local runs. Deployments switch to prod with the SPRING_PROFILES_ACTIVE=prod environment variable,
+    # so the same jar runs everywhere and this file never needs editing before a deploy.
+    active: dev
   config:
     # Local secrets (gitignored, never packaged into the jar). Copy secret.example.yml to secret.yml.
     # On a server, use environment variables instead, e.g. BACKEND_API_KEY.

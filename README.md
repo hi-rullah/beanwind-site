@@ -230,9 +230,22 @@ Platform-specific deployment notes live under [`deploy/`](deploy/):
 | AWS Lambda (current) | [`deploy/aws-lambda/README.md`](deploy/aws-lambda/README.md) |
 | Google Cloud Run (previous) | [`deploy/cloud-run/README.md`](deploy/cloud-run/README.md) |
 
+Every deployment provides two environment variables; the jar itself is the same everywhere:
+
+| Variable | Purpose |
+|---|---|
+| `SPRING_PROFILES_ACTIVE=prod` | `application.yml` defaults to `dev` for local runs |
+| `AUTH_COOKIE_SECRET` | Signs the login cookie, at least 32 characters; the same value on every instance |
+
 ---
 
 ## Changelog
+
+### October 22, 2026 — Login on several instances, error page
+- Login and CSRF token are kept in cookies instead of the HTTP session, so the app works on any number of instances
+  (the login form failed with 403 when a request reached another instance).
+- `error.jte` replaces Spring Boot's Whitelabel error page.
+- The deployment selects the `prod` profile (`SPRING_PROFILES_ACTIVE`); `application.yml` defaults to `dev`.
 
 ### October 16, 2026 — Java 25 / Spring Boot 4 upgrade, deployment moved to `deploy/`
 - Upgraded to Java 25, Spring Boot 4.1.1 and JTE 3.2.4 (`jte-spring-boot-starter-4`).

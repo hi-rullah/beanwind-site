@@ -111,7 +111,8 @@ This deletes the `javaview-site` stack. The `aws-sam-cli-managed-default` stack 
   `http://…`, which Function URLs don't answer (they only serve https), and every visitor IP looks like `127.0.0.1`.
 - **Log retention is 30 days** (`JavaViewLogGroup` in `template.yaml`), as promised on the site's `/privacy` page —
   change both together.
-- **Build with the `prod` profile.** `spring.profiles.active` in `application.yml` is baked into the jar; a jar built
-  with `dev` would try to compile templates at runtime and fail on Lambda.
+- **`prod` profile is set by the deployment:** `SPRING_PROFILES_ACTIVE: prod` in `template.yaml`. `application.yml`
+  defaults to `dev` for local runs, so it never needs editing before a deploy. Without the variable the app would run
+  in `dev` mode, try to compile templates at runtime and fail on Lambda.
 - **Web Adapter layer version** (`LambdaAdapterLayerArm64:30`) is pinned in `template.yaml` — bump it when a new adapter release comes out.
 - **SAM telemetry:** set `SAM_CLI_TELEMETRY=0` to opt out.
