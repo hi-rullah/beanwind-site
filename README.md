@@ -239,6 +239,12 @@ Every deployment provides two environment variables; the jar itself is the same 
 
 ---
 
+## License
+
+[MIT](LICENSE)
+
+---
+
 ## Changelog
 
 ### October 22, 2026 — Login on several instances, error page
