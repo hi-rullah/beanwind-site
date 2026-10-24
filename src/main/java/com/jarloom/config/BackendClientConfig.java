@@ -1,4 +1,4 @@
-package com.javaview.config;
+package com.jarloom.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

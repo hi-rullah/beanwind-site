@@ -1,4 +1,4 @@
-@import com.javaview.security.CurrentUser
+@import com.jarloom.security.CurrentUser
 @param CurrentUser currentUser
 @param Integer status
 @param String error
@@ -15,7 +15,7 @@
 };}
 
 @template.layout.page(
-    title = heading + " — JavaView",
+    title = heading + " — Jarloom",
     page = "error",
     active = "",
     currentUser = currentUser,

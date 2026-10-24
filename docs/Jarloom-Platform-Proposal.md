@@ -1,4 +1,4 @@
-# JavaView Platform — Full Proposal & Architecture
+# Jarloom Platform — Full Proposal & Architecture
 
 > A modern, opinionated, Java-first UI framework and runtime platform for server-rendered web applications.
 > **No React. No Next.js. No Node.js. Pure Java. Zero downtime. Runtime dynamic.**
@@ -21,7 +21,7 @@ Java teams today are forced to either:
 - Use Thymeleaf/JTE with no conventions or structure around it
 - Accept downtime whenever a new page or feature is needed in production
 
-**JavaView fills this gap.**
+**Jarloom fills this gap.**
 
 ---
 
@@ -29,7 +29,7 @@ Java teams today are forced to either:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                    JavaView Platform                       │
+│                    Jarloom Platform                       │
 │                                                            │
 │   Spring Boot + JTE + Tailwind + Alpine.js + HTMX         │
 │   + Runtime Page Builder + Dynamic Scheduler               │
@@ -107,7 +107,7 @@ Java teams today are forced to either:
 ### 4.2 Three-Tier Summary
 
 ```
-Browser → Main App (JavaView UI) → Backend API → Database
+Browser → Main App (Jarloom UI) → Backend API → Database
            HTML + CSS + JS          REST / JSON    PostgreSQL
 ```
 
@@ -148,7 +148,7 @@ my-ui-app/
 
 ## 6. PWA Support — Built In
 
-JavaView includes PWA support out of the box. No configuration needed.
+Jarloom includes PWA support out of the box. No configuration needed.
 
 ### manifest.json
 ```json
@@ -168,7 +168,7 @@ JavaView includes PWA support out of the box. No configuration needed.
 
 ### service-worker.js
 ```javascript
-const CACHE_NAME = 'javaview-v1';
+const CACHE_NAME = 'jarloom-v1';
 const ASSETS = ['/', '/css/output.css', '/js/main.js', '/offline.html'];
 
 self.addEventListener('install', event => {
@@ -221,7 +221,7 @@ self.addEventListener('fetch', event => {
 
 ## 7. Runtime Dynamism — The Sidecar Compiler Pattern
 
-This is the most innovative part of JavaView. Instead of requiring a full app restart when a new page or controller is needed in production, JavaView uses a **dedicated Controller Sub-Service** that can restart independently without affecting the main app.
+This is the most innovative part of Jarloom. Instead of requiring a full app restart when a new page or controller is needed in production, Jarloom uses a **dedicated Controller Sub-Service** that can restart independently without affecting the main app.
 
 ### 7.1 How It Works — New Page in Production
 
@@ -440,7 +440,7 @@ Admin updates any config value → cache invalidated → new value takes effect 
 
 ## 10. What Requires Restart vs What Doesn't
 
-| Change Type | Default Spring Boot | JavaView |
+| Change Type | Default Spring Boot | Jarloom |
 |---|---|---|
 | Favicon / icons / static files | No restart needed | No restart needed |
 | JTE templates | No restart needed | No restart needed |
@@ -458,13 +458,13 @@ Admin updates any config value → cache invalidated → new value takes effect 
 # docker-compose.yml
 services:
   main-app:
-    image: javaview-main
+    image: jarloom-main
     ports:
       - "8080:8080"
     restart: "no"           # main app never auto-restarts
 
   controller-service:
-    image: javaview-controllers
+    image: jarloom-controllers
     ports:
       - "8082:8082"
     restart: always         # always auto-restarts after JVM exit
@@ -480,7 +480,7 @@ services:
   database:
     image: postgres:16
     environment:
-      POSTGRES_DB: javaview
+      POSTGRES_DB: jarloom
       POSTGRES_USER: app
       POSTGRES_PASSWORD: secret
     volumes:
@@ -494,7 +494,7 @@ volumes:
 
 ## 12. Comparison with Alternatives
 
-| Feature | Next.js | Vaadin | Thymeleaf | **JavaView** |
+| Feature | Next.js | Vaadin | Thymeleaf | **Jarloom** |
 |---|---|---|---|---|
 | Language | TypeScript | Java | Java | **Java** |
 | Templating | JSX | Java API | HTML+dialect | **JTE (type-safe)** |
@@ -514,7 +514,7 @@ volumes:
 ## 13. MVP Roadmap
 
 ### Phase 1 — Core Framework (v0.1)
-- [ ] Spring Boot starter (`spring-boot-starter-javaview`)
+- [ ] Spring Boot starter (`jarloom-spring-boot-starter`)
 - [ ] JTE auto-configuration
 - [ ] Tailwind CLI integration at build time
 - [ ] `@Page` annotation for convention-based routing
@@ -524,7 +524,7 @@ volumes:
 
 ### Phase 2 — Developer Experience (v0.2)
 - [ ] Maven archetype / Gradle template for scaffolding
-- [ ] `javaview new my-app` CLI tool
+- [ ] `jarloom new my-app` CLI tool
 - [ ] Hot reload with Spring DevTools pre-configured
 - [ ] JTE development mode enabled by default
 - [ ] `@BackendService` interface-based HTTP client
@@ -557,7 +557,7 @@ volumes:
 
 ## 14. Philosophy & Principles
 
-1. **Java first** — if you know Spring Boot, you know JavaView
+1. **Java first** — if you know Spring Boot, you know Jarloom
 2. **Convention over configuration** — sensible defaults, minimal setup
 3. **HTML over the wire** — server renders, browser displays
 4. **No JavaScript framework** — JS is a tool, not a religion
@@ -568,7 +568,7 @@ volumes:
 
 ---
 
-## 15. What JavaView Is NOT
+## 15. What Jarloom Is NOT
 
 - Not a replacement for React when building SPAs like Notion or Figma
 - Not suitable for apps needing deep native device API access
@@ -579,7 +579,7 @@ volumes:
 
 ## 16. Ideal Use Cases
 
-JavaView is a perfect fit for:
+Jarloom is a perfect fit for:
 
 - ✅ Internal tools and admin dashboards
 - ✅ B2B SaaS applications
@@ -604,11 +604,18 @@ JavaView is a perfect fit for:
 
 ---
 
-## 18. Suggested Name Options
+## 18. Name
 
-| Name | Reasoning |
-|---|---|
-| **JavaView** | Clear, Java + View layer |
+The project started as **JavaView** and was renamed **Jarloom** in October 2026:
+
+- "JavaView" is already the name of a long-running German Java project (3D geometry visualization), so search results would mix the two.
+- "Java" is an Oracle trademark; Oracle asks others not to name products "Java-something" (the reason Java EE became Jakarta EE).
+- **Jarloom**: a loom weaves many threads into one cloth — Jarloom weaves Spring Boot, JTE, Tailwind, security and pages into one JAR. "One JAR. Whole UI."
+
+Names considered and dropped: JavaUI, JavaPages (sounds like JSP), JarPages (clear but generic), Plinth and Lintel (already taken), JteStack and SpringLeaf (other projects' names).
+
+---|---|
+| **Jarloom** | Clear, Java + View layer |
 | **JteStack** | Highlights the core templating engine |
 | **SpringLeaf** | Spring + lightweight (like a leaf) |
 | **Fernwork** | Organic, modern sounding framework name |
@@ -616,4 +623,4 @@ JavaView is a perfect fit for:
 
 ---
 
-*JavaView is more than a UI framework — it is a Java-native platform for building modern, dynamic, installable web applications without leaving the Java ecosystem. The sidecar compiler pattern solves the last major limitation of server-rendered Java apps: the ability to evolve in production without downtime.*
+*Jarloom is more than a UI framework — it is a Java-native platform for building modern, dynamic, installable web applications without leaving the Java ecosystem. The sidecar compiler pattern solves the last major limitation of server-rendered Java apps: the ability to evolve in production without downtime.*

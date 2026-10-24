@@ -1,4 +1,4 @@
-package com.javaview.security;
+package com.jarloom.security;
 
 /**
  * The logged-in user as the templates see it; {@code name} is null for anonymous visitors.

@@ -1,5 +1,5 @@
-@import com.javaview.page.Assets
-@import com.javaview.security.CurrentUser
+@import com.jarloom.page.Assets
+@import com.jarloom.security.CurrentUser
 @import gg.jte.Content
 @param String title
 @param String page

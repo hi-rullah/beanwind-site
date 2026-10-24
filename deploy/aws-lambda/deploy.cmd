@@ -8,7 +8,7 @@ call .\mvnw.cmd -q clean package || exit /b 1
 
 if exist target\lambda rmdir /s /q target\lambda
 mkdir target\lambda
-copy /y target\javaview-site.jar target\lambda\ >nul || exit /b 1
+copy /y target\jarloom-site.jar target\lambda\ >nul || exit /b 1
 copy /y deploy\aws-lambda\run.sh target\lambda\ >nul || exit /b 1
 echo Lambda package ready in target\lambda
 

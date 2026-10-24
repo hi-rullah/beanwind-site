@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.javaview</groupId>
-    <artifactId>javaview-site</artifactId>
+    <groupId>com.jarloom</groupId>
+    <artifactId>jarloom-site</artifactId>
     <version>1.0.0</version>
-    <name>JavaView Site</name>
+    <name>Jarloom Site</name>
 
     <properties>
         <java.version>25</java.version>

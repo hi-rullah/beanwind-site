@@ -1,4 +1,4 @@
-# JavaView Site
+# Jarloom Site
 
 A simple company landing page built with **Spring Boot + JTE + Tailwind CSS v4**.
 No React. No Node.js. No npm. Pure Java.
@@ -13,7 +13,7 @@ No React. No Node.js. No npm. Pure Java.
 This repo is the **frontend (presentation) tier** of a three-tier application — it contains no backend business logic and no database access.
 
 ```
-Browser ──▶ javaview-site (THIS REPO)  ──REST──▶  Backend service  ──▶  Database
+Browser ──▶ jarloom-site (THIS REPO)   ──REST──▶  Backend service  ──▶  Database
             Spring Boot · JTE · Tailwind           (separate repo)       (backend only)
 ```
 
@@ -107,8 +107,8 @@ mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ## Project Structure
 
 ```
-javaview-site/
-├── src/main/java/com/javaview/
+jarloom-site/
+├── src/main/java/com/jarloom/
 │   ├── Application.java                  ← Spring Boot entry point
 │   ├── config/
 │   │   ├── BackendProperties.java        ← backend.* settings
@@ -225,7 +225,7 @@ To regenerate the whole set from a new logo, use a generator such as https://rea
 
 ## Deployment
 
-The app is a plain Spring Boot jar (`mvnw clean package` → `target/javaview-site.jar`) and can run anywhere Java 25 runs.
+The app is a plain Spring Boot jar (`mvnw clean package` → `target/jarloom-site.jar`) and can run anywhere Java 25 runs.
 Platform-specific deployment notes live under [`deploy/`](deploy/):
 
 | Target | Notes |
@@ -249,6 +249,11 @@ Every deployment provides two environment variables; the jar itself is the same 
 ---
 
 ## Changelog
+
+### October 24, 2026 — Renamed JavaView → Jarloom
+- "JavaView" is already the name of another Java project, and "Java" is an Oracle trademark. Why "Jarloom": [`docs/Jarloom-Platform-Proposal.md`](docs/Jarloom-Platform-Proposal.md#18-name).
+- Package `com.javaview` → `com.jarloom`, jar `jarloom-site.jar`, new "JL" favicon, cookies `jv_*` → `jl_*` (visitors sign in and answer the cookie banner again once).
+- The GitHub repo moved to `hi-rullah/jarloom-site`; the old URL redirects. AWS resource names stay unchanged (see `deploy/aws-lambda/README.md`).
 
 ### October 22, 2026 — Login on several instances, error page
 - Login and CSRF token are kept in cookies instead of the HTTP session, so the app works on any number of instances

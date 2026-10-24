@@ -1,11 +1,11 @@
 # Architecture — the frontend tier
 
-javaview-site is the **presentation tier** of a classic three-tier application.
+jarloom-site is the **presentation tier** of a classic three-tier application.
 It renders HTML on the server with Spring Boot + JTE + Tailwind and gets all of its data from a separate backend service.
 
 ```
 ┌──────────┐  HTML   ┌──────────────────────────────┐  REST/JSON  ┌──────────────────┐  SQL  ┌──────────┐
-│ Browser  │ ◀─────▶ │ javaview-site  (THIS REPO)   │ ──────────▶ │ Backend service  │ ────▶ │ Database │
+│ Browser  │ ◀─────▶ │ jarloom-site  (THIS REPO)    │ ──────────▶ │ Backend service  │ ────▶ │ Database │
 └──────────┘         │ presentation tier            │             │ (separate repo)  │       └──────────┘
                      │ • pages: JTE templates       │             │ • business logic │
                      │ • styling: Tailwind CSS      │             │ • REST API       │
@@ -125,9 +125,9 @@ Entra ID, ...). Spring Security supports this with `oauth2Login()`; the app then
 | Login required | everything else, e.g. `/secured` (new pages are protected by default) |
 
 - Login form: `GET /login` is our JTE page, `POST /login` is handled by Spring Security; success goes to `/secured`.
-- Logout: `POST /logout` (with CSRF token) deletes the `jv_auth` cookie and redirects to `/`.
-- No HTTP session (`STATELESS`): the signed-in user is kept in the `jv_auth` cookie, signed with HMAC-SHA256
-  (`security/SignedCookieSecurityContextRepository`), and the CSRF token in the `jv_csrf` cookie. Any instance can
+- Logout: `POST /logout` (with CSRF token) deletes the `jl_auth` cookie and redirects to `/`.
+- No HTTP session (`STATELESS`): the signed-in user is kept in the `jl_auth` cookie, signed with HMAC-SHA256
+  (`security/SignedCookieSecurityContextRepository`), and the CSRF token in the `jl_csrf` cookie. Any instance can
   check both, so the app runs on any number of instances (see below). The signing key is `auth.cookie-secret`: required in prod
   (`AUTH_COOKIE_SECRET`), random per start locally when not set.
 - Errors render `error.jte` (`server.error.whitelabel.enabled: false` in `application.yml`).
@@ -189,7 +189,7 @@ page_view method=GET path=/about status=200 visitor=- user=- ip=203.0.113.0 refe
 - **IP addresses are anonymized** before logging (IPv4 /24, IPv6 /48). Behind the Lambda Function URL the client
   address is the first `X-Forwarded-For` entry.
 - **Visitor ID cookie only with consent.** The cookie banner (`layout/cookieBanner.jte` + `js/layout/consent.js`)
-  stores the choice in `jv_consent`. Only after `accepted` does the server set `jv_visitor` (random UUID, HttpOnly,
+  stores the choice in `jl_consent`. Only after `accepted` does the server set `jl_visitor` (random UUID, HttpOnly,
   6 months) to count returning visitors; after `rejected` it deletes it. Reject is as easy as accept, and
   "Cookie settings" in the footer reopens the banner. Without JavaScript nothing is accepted.
 - Client-supplied values (user agent, referrer, usernames) are stripped of quotes and control characters so they

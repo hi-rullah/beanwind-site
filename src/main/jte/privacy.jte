@@ -1,8 +1,8 @@
-@import com.javaview.security.CurrentUser
+@import com.jarloom.security.CurrentUser
 @param CurrentUser currentUser
 
 @template.layout.page(
-    title = "Privacy & cookies — JavaView",
+    title = "Privacy & cookies — Jarloom",
     page = "privacy",
     active = "privacy",
     currentUser = currentUser,
@@ -14,7 +14,7 @@
             </div>
             <h1 class="font-display text-[10vw] sm:text-5xl font-extrabold tracking-tight mb-6">Privacy &amp; cookies</h1>
             <p class="text-zinc-400 text-lg leading-relaxed mb-14">
-                JavaView is a demo site. This page explains what we record when you visit, which cookies we use and how you can choose.
+                Jarloom is a demo site. This page explains what we record when you visit, which cookies we use and how you can choose.
             </p>
 
             <h2 class="font-display text-2xl font-bold mb-4">What we log on each page view</h2>
@@ -36,7 +36,7 @@
             <div class="grid sm:grid-cols-2 gap-4 mb-6">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
-                        <code class="text-zinc-200 text-sm">jv_auth</code>
+                        <code class="text-zinc-200 text-sm">jl_auth</code>
                         <span class="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">Necessary</span>
                     </div>
                     <p class="text-zinc-400 text-sm leading-relaxed">Keeps you signed in. Only set when you sign in.</p>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
-                        <code class="text-zinc-200 text-sm">jv_csrf</code>
+                        <code class="text-zinc-200 text-sm">jl_csrf</code>
                         <span class="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">Necessary</span>
                     </div>
                     <p class="text-zinc-400 text-sm leading-relaxed">Protects forms against forged requests. Set when you open the sign-in page.</p>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
-                        <code class="text-zinc-200 text-sm">jv_consent</code>
+                        <code class="text-zinc-200 text-sm">jl_consent</code>
                         <span class="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">Necessary</span>
                     </div>
                     <p class="text-zinc-400 text-sm leading-relaxed">Remembers your cookie choice.</p>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
                     <div class="flex items-center justify-between gap-3 mb-2">
-                        <code class="text-zinc-200 text-sm">jv_visitor</code>
+                        <code class="text-zinc-200 text-sm">jl_visitor</code>
                         <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400">Analytics</span>
                     </div>
                     <p class="text-zinc-400 text-sm leading-relaxed">A random, anonymous ID to count returning visitors. Only set if you accept.</p>

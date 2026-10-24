@@ -11,13 +11,16 @@ Lambda starts the Spring Boot jar via `run.sh`, and the adapter forwards each re
 | `run.sh` | Startup script launched by the Web Adapter |
 | `deploy.cmd` | Builds the jar, puts jar + `run.sh` into `target/lambda/` (the Lambda package) and runs `sam deploy` |
 
+The AWS resource names (stack, function, log group, `JavaView...` template IDs) keep the project's old name, JavaView:
+renaming them would replace the function, and with it the Function URL.
+
 Everything Lambda-specific lives in this folder — `pom.xml` has no Lambda configuration.
 
 ## How a request flows
 ```
 Browser ──HTTPS──▶ Function URL ──▶ alias "live" ──▶ Lambda (java25, arm64)
                                                      ├─ Web Adapter (layer, /opt/bootstrap)
-                                                     └─ run.sh ─▶ java -jar javaview-site.jar  (Spring Boot on :8080)
+                                                     └─ run.sh ─▶ java -jar jarloom-site.jar  (Spring Boot on :8080)
 ```
 
 ## Cloud Run → Lambda mapping
@@ -49,7 +52,7 @@ From anywhere (Windows):
 ```
 deploy\aws-lambda\deploy.cmd
 ```
-It runs `mvnw clean package`, copies `target\javaview-site.jar` + `run.sh` into `target\lambda\`, then `sam deploy`,
+It runs `mvnw clean package`, copies `target\jarloom-site.jar` + `run.sh` into `target\lambda\`, then `sam deploy`,
 which shows the changeset and asks for confirmation (`confirm_changeset = true`).
 
 - **Login cookie secret:** the template has a `AuthCookieSecret` parameter (becomes `AUTH_COOKIE_SECRET`, see

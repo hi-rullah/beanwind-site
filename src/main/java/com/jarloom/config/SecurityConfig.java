@@ -1,9 +1,9 @@
-package com.javaview.config;
+package com.jarloom.config;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
-import com.javaview.security.SignedCookieSecurityContextRepository;
+import com.jarloom.security.SignedCookieSecurityContextRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,7 +71,7 @@ public class SecurityConfig {
                 //         .defaultSuccessUrl("/secured"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        // the security context repository deletes the jv_auth cookie
+                        // the security context repository deletes the jl_auth cookie
                         .logoutSuccessUrl("/"));
         return http.build();
     }
@@ -104,7 +104,7 @@ public class SecurityConfig {
     /** CSRF token in an HttpOnly cookie instead of the session; forms still send it as a hidden field. */
     private static CookieCsrfTokenRepository csrfTokenRepository() {
         CookieCsrfTokenRepository repository = new CookieCsrfTokenRepository();
-        repository.setCookieName("jv_csrf");
+        repository.setCookieName("jl_csrf");
         repository.setCookieCustomizer(cookie -> cookie.sameSite("Lax"));
         return repository;
     }

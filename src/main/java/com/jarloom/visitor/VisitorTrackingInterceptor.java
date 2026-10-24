@@ -1,4 +1,4 @@
-package com.javaview.visitor;
+package com.jarloom.visitor;
 
 import java.net.InetAddress;
 import java.security.Principal;
@@ -23,15 +23,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * {@code page_view method=GET path=/about status=200 visitor=- user=- ip=203.0.113.0 referer="..." ua="..."}.
  *
  * <p>The IP address is anonymized before it is logged. A visitor ID cookie is only set after the visitor accepted
- * analytics cookies in the cookie banner (cookie {@code jv_consent=accepted}, set by js/layout/consent.js);
+ * analytics cookies in the cookie banner (cookie {@code jl_consent=accepted}, set by js/layout/consent.js);
  * after "rejected" an existing visitor cookie is deleted. See the /privacy page.
  */
 public class VisitorTrackingInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger("visitor");
 
-    static final String CONSENT_COOKIE = "jv_consent";
-    static final String VISITOR_COOKIE = "jv_visitor";
+    static final String CONSENT_COOKIE = "jl_consent";
+    static final String VISITOR_COOKIE = "jl_visitor";
     private static final Duration VISITOR_COOKIE_AGE = Duration.ofDays(180);
     private static final String VISITOR_ATTRIBUTE = VisitorTrackingInterceptor.class.getName() + ".visitor";
 

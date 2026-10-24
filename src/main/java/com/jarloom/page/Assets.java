@@ -1,4 +1,4 @@
-package com.javaview.page;
+package com.jarloom.page;
 
 import java.io.IOException;
 import java.io.InputStream;

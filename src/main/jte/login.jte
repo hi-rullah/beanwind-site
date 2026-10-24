@@ -1,11 +1,11 @@
-@import com.javaview.security.CurrentUser
+@import com.jarloom.security.CurrentUser
 @import org.springframework.security.web.csrf.CsrfToken
 @param CurrentUser currentUser
 @param CsrfToken csrf
 @param boolean error
 
 @template.layout.page(
-    title = "Sign in — JavaView",
+    title = "Sign in — Jarloom",
     page = "login",
     active = "secured",
     currentUser = currentUser,

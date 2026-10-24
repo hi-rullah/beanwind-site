@@ -1,4 +1,4 @@
-package com.javaview.visitor;
+package com.jarloom.visitor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
