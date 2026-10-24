@@ -16,13 +16,13 @@ with Google Cloud buildpacks (Maven, using the included `mvnw`) and runs the jar
 
 1. Clone the repository (it's private on GitHub, so Cloud Shell needs a GitHub token or SSH key):
    ```bash
-   git clone https://github.com/hi-rullah/jarloom-site.git
-   cd jarloom-site
+   git clone https://github.com/hi-rullah/beanwind-site.git
+   cd beanwind-site
    ```
 
 2. Deploy:
    ```bash
-   gcloud run deploy jarloom --source . --region us-central1 --allow-unauthenticated      --set-env-vars SPRING_PROFILES_ACTIVE=prod,AUTH_COOKIE_SECRET=$(openssl rand -hex 32)
+   gcloud run deploy beanwind --source . --region us-central1 --allow-unauthenticated      --set-env-vars SPRING_PROFILES_ACTIVE=prod,AUTH_COOKIE_SECRET=$(openssl rand -hex 32)
    ```
    - `--source .` — build from source, no Dockerfile needed
    - `--allow-unauthenticated` — public site
@@ -33,9 +33,9 @@ with Google Cloud buildpacks (Maven, using the included `mvnw`) and runs the jar
 1. Make and push your changes on your machine (`git push` to GitHub).
 2. In Cloud Shell:
    ```bash
-   cd jarloom-site
+   cd beanwind-site
    git pull
-   gcloud run deploy jarloom --source . --region us-central1 --allow-unauthenticated
+   gcloud run deploy beanwind --source . --region us-central1 --allow-unauthenticated
    ```
 
 ## Java version
@@ -43,7 +43,7 @@ with Google Cloud buildpacks (Maven, using the included `mvnw`) and runs the jar
 The buildpacks pick a default Java version, which may be older than the project's Java 25.
 If the build fails on the Java version, pin it with a build environment variable (not verified for Java 25):
 ```bash
-gcloud run deploy jarloom --source . --region us-central1 --allow-unauthenticated \
+gcloud run deploy beanwind --source . --region us-central1 --allow-unauthenticated \
   --set-build-env-vars GOOGLE_RUNTIME_VERSION=25
 ```
 

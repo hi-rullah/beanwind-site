@@ -1,5 +1,5 @@
-@import com.jarloom.page.Assets
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.page.Assets
+@import com.beanwind.security.CurrentUser
 @import gg.jte.Content
 @param String title
 @param String page

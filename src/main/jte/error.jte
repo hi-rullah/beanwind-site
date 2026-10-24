@@ -1,4 +1,4 @@
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.security.CurrentUser
 @param CurrentUser currentUser
 @param Integer status
 @param String error
@@ -15,7 +15,7 @@
 };}
 
 @template.layout.page(
-    title = heading + " — Jarloom",
+    title = heading + " — Beanwind",
     page = "error",
     active = "",
     currentUser = currentUser,

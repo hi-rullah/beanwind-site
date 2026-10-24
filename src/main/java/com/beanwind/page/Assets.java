@@ -1,4 +1,4 @@
-package com.jarloom.page;
+package com.beanwind.page;
 
 import java.io.IOException;
 import java.io.InputStream;

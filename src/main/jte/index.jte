@@ -1,8 +1,8 @@
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.security.CurrentUser
 @param CurrentUser currentUser
 
 @template.layout.page(
-    title = "Jarloom — One JAR. Whole UI.",
+    title = "Beanwind — One JAR. Whole UI.",
     page = "index",
     active = "home",
     currentUser = currentUser,
@@ -137,7 +137,7 @@
                     <span class="w-3 h-3 rounded-full bg-zinc-700"></span>
                 </div>
                 <pre class="p-4 sm:p-5 text-[11px] sm:text-sm leading-loose overflow-x-auto"><code><span class="text-zinc-500">$</span> ./mvnw package
-<span class="text-zinc-500">$</span> java -jar target/jarloom-site.jar
+<span class="text-zinc-500">$</span> java -jar target/beanwind-site.jar
 <span class="text-emerald-400">Started Application in 3.1 seconds</span>
 <span class="text-zinc-500">→</span> http://localhost:8080</code></pre>
             </div>

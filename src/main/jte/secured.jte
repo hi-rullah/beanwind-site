@@ -1,12 +1,12 @@
 @import java.util.List
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.security.CurrentUser
 @import org.springframework.security.web.csrf.CsrfToken
 @param CurrentUser currentUser
 @param CsrfToken csrf
 @param List<String> authorities
 
 @template.layout.page(
-    title = "Secured — Jarloom",
+    title = "Secured — Beanwind",
     page = "secured",
     active = "secured",
     currentUser = currentUser,

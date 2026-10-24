@@ -1,4 +1,4 @@
-package com.jarloom.page;
+package com.beanwind.page;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Page routes. Every page view is logged by {@link com.jarloom.visitor.VisitorTrackingInterceptor},
+ * Page routes. Every page view is logged by {@link com.beanwind.visitor.VisitorTrackingInterceptor},
  * so the handlers here need no logging code of their own.
  */
 @Controller

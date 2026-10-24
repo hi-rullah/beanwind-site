@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.jarloom</groupId>
-    <artifactId>jarloom-site</artifactId>
+    <groupId>com.beanwind</groupId>
+    <artifactId>beanwind-site</artifactId>
     <version>1.0.0</version>
-    <name>Jarloom Site</name>
+    <name>Beanwind Site</name>
 
     <properties>
         <java.version>25</java.version>

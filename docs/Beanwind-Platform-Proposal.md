@@ -1,4 +1,4 @@
-# Jarloom Platform — Full Proposal & Architecture
+# Beanwind Platform — Full Proposal & Architecture
 
 > A modern, opinionated, Java-first UI framework and runtime platform for server-rendered web applications.
 > **No React. No Next.js. No Node.js. Pure Java. Zero downtime. Runtime dynamic.**
@@ -21,7 +21,7 @@ Java teams today are forced to either:
 - Use Thymeleaf/JTE with no conventions or structure around it
 - Accept downtime whenever a new page or feature is needed in production
 
-**Jarloom fills this gap.**
+**Beanwind fills this gap.**
 
 ---
 
@@ -29,7 +29,7 @@ Java teams today are forced to either:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                    Jarloom Platform                       │
+│                    Beanwind Platform                       │
 │                                                            │
 │   Spring Boot + JTE + Tailwind + Alpine.js + HTMX         │
 │   + Runtime Page Builder + Dynamic Scheduler               │
@@ -107,7 +107,7 @@ Java teams today are forced to either:
 ### 4.2 Three-Tier Summary
 
 ```
-Browser → Main App (Jarloom UI) → Backend API → Database
+Browser → Main App (Beanwind UI) → Backend API → Database
            HTML + CSS + JS          REST / JSON    PostgreSQL
 ```
 
@@ -148,7 +148,7 @@ my-ui-app/
 
 ## 6. PWA Support — Built In
 
-Jarloom includes PWA support out of the box. No configuration needed.
+Beanwind includes PWA support out of the box. No configuration needed.
 
 ### manifest.json
 ```json
@@ -168,7 +168,7 @@ Jarloom includes PWA support out of the box. No configuration needed.
 
 ### service-worker.js
 ```javascript
-const CACHE_NAME = 'jarloom-v1';
+const CACHE_NAME = 'beanwind-v1';
 const ASSETS = ['/', '/css/output.css', '/js/main.js', '/offline.html'];
 
 self.addEventListener('install', event => {
@@ -221,7 +221,7 @@ self.addEventListener('fetch', event => {
 
 ## 7. Runtime Dynamism — The Sidecar Compiler Pattern
 
-This is the most innovative part of Jarloom. Instead of requiring a full app restart when a new page or controller is needed in production, Jarloom uses a **dedicated Controller Sub-Service** that can restart independently without affecting the main app.
+This is the most innovative part of Beanwind. Instead of requiring a full app restart when a new page or controller is needed in production, Beanwind uses a **dedicated Controller Sub-Service** that can restart independently without affecting the main app.
 
 ### 7.1 How It Works — New Page in Production
 
@@ -440,7 +440,7 @@ Admin updates any config value → cache invalidated → new value takes effect 
 
 ## 10. What Requires Restart vs What Doesn't
 
-| Change Type | Default Spring Boot | Jarloom |
+| Change Type | Default Spring Boot | Beanwind |
 |---|---|---|
 | Favicon / icons / static files | No restart needed | No restart needed |
 | JTE templates | No restart needed | No restart needed |
@@ -458,13 +458,13 @@ Admin updates any config value → cache invalidated → new value takes effect 
 # docker-compose.yml
 services:
   main-app:
-    image: jarloom-main
+    image: beanwind-main
     ports:
       - "8080:8080"
     restart: "no"           # main app never auto-restarts
 
   controller-service:
-    image: jarloom-controllers
+    image: beanwind-controllers
     ports:
       - "8082:8082"
     restart: always         # always auto-restarts after JVM exit
@@ -480,7 +480,7 @@ services:
   database:
     image: postgres:16
     environment:
-      POSTGRES_DB: jarloom
+      POSTGRES_DB: beanwind
       POSTGRES_USER: app
       POSTGRES_PASSWORD: secret
     volumes:
@@ -494,7 +494,7 @@ volumes:
 
 ## 12. Comparison with Alternatives
 
-| Feature | Next.js | Vaadin | Thymeleaf | **Jarloom** |
+| Feature | Next.js | Vaadin | Thymeleaf | **Beanwind** |
 |---|---|---|---|---|
 | Language | TypeScript | Java | Java | **Java** |
 | Templating | JSX | Java API | HTML+dialect | **JTE (type-safe)** |
@@ -514,7 +514,7 @@ volumes:
 ## 13. MVP Roadmap
 
 ### Phase 1 — Core Framework (v0.1)
-- [ ] Spring Boot starter (`jarloom-spring-boot-starter`)
+- [ ] Spring Boot starter (`beanwind-spring-boot-starter`)
 - [ ] JTE auto-configuration
 - [ ] Tailwind CLI integration at build time
 - [ ] `@Page` annotation for convention-based routing
@@ -524,7 +524,7 @@ volumes:
 
 ### Phase 2 — Developer Experience (v0.2)
 - [ ] Maven archetype / Gradle template for scaffolding
-- [ ] `jarloom new my-app` CLI tool
+- [ ] `beanwind new my-app` CLI tool
 - [ ] Hot reload with Spring DevTools pre-configured
 - [ ] JTE development mode enabled by default
 - [ ] `@BackendService` interface-based HTTP client
@@ -557,7 +557,7 @@ volumes:
 
 ## 14. Philosophy & Principles
 
-1. **Java first** — if you know Spring Boot, you know Jarloom
+1. **Java first** — if you know Spring Boot, you know Beanwind
 2. **Convention over configuration** — sensible defaults, minimal setup
 3. **HTML over the wire** — server renders, browser displays
 4. **No JavaScript framework** — JS is a tool, not a religion
@@ -568,7 +568,7 @@ volumes:
 
 ---
 
-## 15. What Jarloom Is NOT
+## 15. What Beanwind Is NOT
 
 - Not a replacement for React when building SPAs like Notion or Figma
 - Not suitable for apps needing deep native device API access
@@ -579,7 +579,7 @@ volumes:
 
 ## 16. Ideal Use Cases
 
-Jarloom is a perfect fit for:
+Beanwind is a perfect fit for:
 
 - ✅ Internal tools and admin dashboards
 - ✅ B2B SaaS applications
@@ -606,16 +606,19 @@ Jarloom is a perfect fit for:
 
 ## 18. Name
 
-The project started as **JavaView** and was renamed **Jarloom** in October 2026:
+The project started as **JavaView**, was renamed **Jarloom** and then **Beanwind**, all in October 2026:
 
 - "JavaView" is already the name of a long-running German Java project (3D geometry visualization), so search results would mix the two.
 - "Java" is an Oracle trademark; Oracle asks others not to name products "Java-something" (the reason Java EE became Jakarta EE).
-- **Jarloom**: a loom weaves many threads into one cloth — Jarloom weaves Spring Boot, JTE, Tailwind, security and pages into one JAR. "One JAR. Whole UI."
+- "Jarloom" is already a live mobile puzzle game (jarloom.app, on the App Store) and a business at jarloom.com.
+- **Beanwind**: Spring *beans* + Tail*wind* — the two halves of the stack in one word.
 
-Names considered and dropped: JavaUI, JavaPages (sounds like JSP), JarPages (clear but generic), Plinth and Lintel (already taken), JteStack and SpringLeaf (other projects' names).
+Before choosing, each candidate was checked by web search, `.com`/`.app`/`.dev`/`.io` domains, GitHub repos and users, and Maven Central.
+
+Names considered and dropped: JavaUI, JavaPages (sounds like JSP), JarPages (clear but generic), Plinth and Lintel (already taken), JteStack and SpringLeaf (other projects' names), Jarloom (see above), JUI (an existing Java UI framework, `com.effacy.jui`), Javui and JetUI (existing UI libraries), Kilnview and Steamjar (existing software), Roastwind, Brewloft and Tailbrew (domains or accounts taken), Juiwind (free, but hard to pronounce).
 
 ---|---|
-| **Jarloom** | Clear, Java + View layer |
+| **JavaView** | Clear, Java + View layer |
 | **JteStack** | Highlights the core templating engine |
 | **SpringLeaf** | Spring + lightweight (like a leaf) |
 | **Fernwork** | Organic, modern sounding framework name |
@@ -623,4 +626,4 @@ Names considered and dropped: JavaUI, JavaPages (sounds like JSP), JarPages (cle
 
 ---
 
-*Jarloom is more than a UI framework — it is a Java-native platform for building modern, dynamic, installable web applications without leaving the Java ecosystem. The sidecar compiler pattern solves the last major limitation of server-rendered Java apps: the ability to evolve in production without downtime.*
+*Beanwind is more than a UI framework — it is a Java-native platform for building modern, dynamic, installable web applications without leaving the Java ecosystem. The sidecar compiler pattern solves the last major limitation of server-rendered Java apps: the ability to evolve in production without downtime.*

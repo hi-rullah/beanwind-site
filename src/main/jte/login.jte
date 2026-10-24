@@ -1,11 +1,11 @@
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.security.CurrentUser
 @import org.springframework.security.web.csrf.CsrfToken
 @param CurrentUser currentUser
 @param CsrfToken csrf
 @param boolean error
 
 @template.layout.page(
-    title = "Sign in — Jarloom",
+    title = "Sign in — Beanwind",
     page = "login",
     active = "secured",
     currentUser = currentUser,

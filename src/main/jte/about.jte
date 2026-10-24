@@ -1,8 +1,8 @@
-@import com.jarloom.security.CurrentUser
+@import com.beanwind.security.CurrentUser
 @param CurrentUser currentUser
 
 @template.layout.page(
-    title = "About — Jarloom",
+    title = "About — Beanwind",
     page = "about",
     active = "about",
     currentUser = currentUser,
@@ -36,10 +36,10 @@
                 Our Story
             </div>
             <h1 class="fade-up delay-2 font-display text-[10vw] sm:text-6xl md:text-7xl font-extrabold leading-none mb-6 tracking-tight">
-                Why <span class="gradient-text">Jarloom</span>
+                Why <span class="gradient-text">Beanwind</span>
             </h1>
             <p class="fade-up delay-3 text-zinc-400 text-xl font-light leading-relaxed">
-                We believe Java teams shouldn't have to learn an entirely different ecosystem just to build a great UI. Jarloom brings modern web design to the JVM — no compromise.
+                We believe Java teams shouldn't have to learn an entirely different ecosystem just to build a great UI. Beanwind brings modern web design to the JVM — no compromise.
             </p>
             <div class="fade-up delay-4 mt-10">
                 <a href="#architecture" class="inline-block px-8 py-3.5 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-semibold rounded-full transition-all duration-200">
@@ -96,14 +96,14 @@
                 <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-widest uppercase">
                     Architecture
                 </div>
-                <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">How Jarloom Works</h2>
+                <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">How Beanwind Works</h2>
                 <p class="text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-                    Jarloom is the presentation tier of a classic three-tier application. It renders every page as HTML on the server, so the browser gets a finished page and no JavaScript framework is involved.
+                    Beanwind is the presentation tier of a classic three-tier application. It renders every page as HTML on the server, so the browser gets a finished page and no JavaScript framework is involved.
                 </p>
             </div>
 
             <!-- Diagram: stacks vertically on phones, runs left to right on large screens -->
-            <div class="flex flex-col lg:flex-row lg:items-stretch items-center gap-2" role="img" aria-label="Browser exchanges HTML with the Jarloom app, where Spring Security checks each request before a controller renders the page; the app calls a separate backend service over REST, which stores data in a database">
+            <div class="flex flex-col lg:flex-row lg:items-stretch items-center gap-2" role="img" aria-label="Browser exchanges HTML with the Beanwind app, where Spring Security checks each request before a controller renders the page; the app calls a separate backend service over REST, which stores data in a database">
 
                 <!-- Browser -->
                 <div class="w-full max-w-sm lg:w-36 lg:max-w-none shrink-0 bg-zinc-900 border border-zinc-700 rounded-2xl p-5 text-center flex flex-col justify-center">
@@ -121,7 +121,7 @@
                 <!-- This app -->
                 <div class="w-full max-w-sm lg:max-w-none lg:flex-1 bg-zinc-900 border-2 border-amber-500/50 rounded-2xl p-5">
                     <div class="flex items-center justify-between gap-2 mb-4">
-                        <div class="font-display font-bold">Jarloom app</div>
+                        <div class="font-display font-bold">Beanwind app</div>
                         <span class="text-[10px] uppercase tracking-wider text-amber-400 border border-amber-500/30 rounded-full px-2 py-0.5">This site</span>
                     </div>
                     <ol class="space-y-2 text-sm">

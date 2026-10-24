@@ -1,4 +1,4 @@
-package com.jarloom.security;
+package com.beanwind.security;
 
 import java.security.Principal;
 

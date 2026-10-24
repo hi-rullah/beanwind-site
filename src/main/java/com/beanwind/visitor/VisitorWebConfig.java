@@ -1,4 +1,4 @@
-package com.jarloom.visitor;
+package com.beanwind.visitor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -1,4 +1,4 @@
-package com.jarloom.config;
+package com.beanwind.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

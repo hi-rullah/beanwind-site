@@ -1,4 +1,4 @@
-package com.jarloom.security;
+package com.beanwind.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -41,7 +41,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
  */
 public class SignedCookieSecurityContextRepository implements SecurityContextRepository {
 
-    public static final String COOKIE = "jl_auth";
+    public static final String COOKIE = "bw_auth";
     private static final Duration VALIDITY = Duration.ofHours(8);
     private static final String HMAC = "HmacSHA256";
 
