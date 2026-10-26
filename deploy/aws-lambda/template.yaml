@@ -34,6 +34,7 @@ Resources:
           AWS_LWA_ENABLE_COMPRESSION: 'true'
           SPRING_PROFILES_ACTIVE: prod        # application.yml defaults to dev for local runs
           AUTH_COOKIE_SECRET: !Ref AuthCookieSecret
+          SITE_BASE_URL: https://beanwind.zeybekyilmazltd.com   # custom domain (CloudFront), not the Function URL
       SnapStart:
         ApplyOn: PublishedVersions
       AutoPublishAlias: live              # SnapStart only applies to published versions

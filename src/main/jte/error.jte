@@ -19,6 +19,7 @@
     page = "error",
     active = "",
     currentUser = currentUser,
+    noindex = true,
     style = @`
     <style>
         .hero-glow {

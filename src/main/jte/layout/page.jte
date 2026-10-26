@@ -7,6 +7,9 @@
 @param CurrentUser currentUser
 @param Content content
 @param Content style = null
+@param String description = null
+@param String canonicalUrl = null
+@param boolean noindex = false
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +18,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
     <title>${title}</title>
+    @if(description != null)
+        <meta name="description" content="${description}">
+    @endif
+    @if(noindex)
+        <%-- Sign-in, member and error pages: crawlers may fetch them but keep them out of search results --%>
+        <meta name="robots" content="noindex">
+    @endif
+    @if(canonicalUrl != null)
+        <%-- The one address search engines should index, even when the page is also reachable at another host --%>
+        <link rel="canonical" href="${canonicalUrl}">
+        <%-- Link previews when the page is shared (LinkedIn, Slack, WhatsApp, X, ...) --%>
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Beanwind">
+        <meta property="og:title" content="${title}">
+        <meta property="og:url" content="${canonicalUrl}">
+        @if(description != null)
+            <meta property="og:description" content="${description}">
+        @endif
+        <meta name="twitter:card" content="summary">
+    @endif
     <%-- Fonts used above the fold: start downloading before the CSS is parsed, so text does not swap fonts --%>
     <link rel="preload" href="/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>

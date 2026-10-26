@@ -9,6 +9,7 @@
     page = "login",
     active = "secured",
     currentUser = currentUser,
+    noindex = true,
     style = @`
     <style>
         .hero-glow {

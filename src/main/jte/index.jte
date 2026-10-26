@@ -1,11 +1,16 @@
+@import com.beanwind.page.PublicPage
+@import com.beanwind.page.SiteProperties
 @import com.beanwind.security.CurrentUser
 @param CurrentUser currentUser
+@param SiteProperties site
 
 @template.layout.page(
     title = "Beanwind — One JAR. Whole UI.",
     page = "index",
     active = "home",
     currentUser = currentUser,
+    description = PublicPage.HOME.description(),
+    canonicalUrl = site.url(PublicPage.HOME.path()),
     style = @`
     <style>
         .gradient-text {

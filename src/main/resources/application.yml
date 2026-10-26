@@ -37,6 +37,11 @@ server:
 # auth:
 #   cookie-secret: ...
 
+# Public address of the site, for absolute links: canonical links, Open Graph tags, robots.txt, sitemap.xml, llms.txt.
+# Each deployment sets SITE_BASE_URL to its public address, e.g. its custom domain.
+site:
+  base-url: ${SITE_BASE_URL:http://localhost:8080}
+
 # Backend service (separate repo) that this frontend calls over HTTP. See docs/architecture.md
 backend:
   base-url: ${BACKEND_BASE_URL:http://localhost:8081}

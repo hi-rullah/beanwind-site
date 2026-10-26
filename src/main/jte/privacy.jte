@@ -1,11 +1,16 @@
+@import com.beanwind.page.PublicPage
+@import com.beanwind.page.SiteProperties
 @import com.beanwind.security.CurrentUser
 @param CurrentUser currentUser
+@param SiteProperties site
 
 @template.layout.page(
     title = "Privacy & cookies — Beanwind",
     page = "privacy",
     active = "privacy",
     currentUser = currentUser,
+    description = PublicPage.PRIVACY.description(),
+    canonicalUrl = site.url(PublicPage.PRIVACY.path()),
     content = @`
     <section class="pt-36 pb-20 px-6">
         <div class="max-w-3xl mx-auto">

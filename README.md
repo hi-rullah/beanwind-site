@@ -81,6 +81,9 @@ Open browser: http://localhost:8080
 |---|---|
 | http://localhost:8080/ | Home / Landing page |
 | http://localhost:8080/about | About page |
+| http://localhost:8080/privacy | Privacy & cookies |
+| http://localhost:8080/secured | Requires sign-in (`demo` / `demo`) |
+| http://localhost:8080/robots.txt, /sitemap.xml, /llms.txt | For crawlers, see [Search engines and AI crawlers](#search-engines-and-ai-crawlers) |
 
 ---
 
@@ -115,7 +118,12 @@ beanwind-site/
 │   │   ├── BackendClientConfig.java      ← RestClient for the backend service
 │   │   └── SecurityConfig.java           ← Spring Security: public pages, demo user, (commented) OAuth2
 │   ├── page/
-│   │   └── PageController.java           ← page route mappings
+│   │   ├── PageController.java           ← page route mappings
+│   │   ├── PublicPage.java               ← public pages: sitemap, llms.txt, meta descriptions
+│   │   ├── CrawlerController.java        ← robots.txt, sitemap.xml, llms.txt
+│   │   ├── SiteProperties.java           ← site.base-url: the public address for absolute links
+│   │   ├── SiteAdvice.java               ← adds site to every page's model
+│   │   └── Assets.java                   ← versioned URLs for css/js
 │   ├── security/
 │   │   ├── AuthenticationEventLogger.java ← logs sign-in, failed sign-in, sign-out
 │   │   ├── CurrentUser.java              ← logged-in user as the templates see it
@@ -210,6 +218,55 @@ To regenerate the whole set from a new logo, use a generator such as https://rea
 
 ---
 
+## Search engines and AI crawlers
+
+Server-rendered pages are already easy for crawlers to read: the content is in the HTML, no JavaScript has to run.
+On top of that, a public site needs a few files and tags so search engines and AI tools find the right pages
+at the right address. This applies to any website, not only this one.
+
+### For search engines
+
+| Item | What it does | In this project |
+|---|---|---|
+| **`robots.txt`** | Rules for crawlers: what they may fetch, and where the sitemap is. Polite crawlers read it first. | `/robots.txt`: every crawler is allowed, points to the sitemap |
+| **`sitemap.xml`** | The list of pages you want indexed | `/sitemap.xml`: the pages in `PublicPage` |
+| **Canonical link** | `<link rel="canonical" href="...">` names the one address to index when a page is reachable at several (e.g. a custom domain and the hosting provider's URL) | Public pages, built from `site.base-url` |
+| **Meta description** | The text under the title in search results | Public pages, from `PublicPage` |
+| **`noindex`** | `<meta name="robots" content="noindex">` keeps a page out of search results | Sign-in, secured and error pages |
+| **Open Graph / Twitter cards** | `og:title`, `og:description`, `og:url`, `og:image`: the preview card when a link is shared on LinkedIn, Slack, WhatsApp, X | Public pages (no `og:image` yet) |
+| **Search Console** | Google Search Console / Bing Webmaster Tools: prove you own the site (DNS TXT record), submit the sitemap, see indexing errors | Not set up yet |
+| **Structured data** | JSON-LD `<script type="application/ld+json">` describing the site (organization, article, product, ...) for rich results | Not used; little effect for a small site |
+
+**`noindex` vs. `Disallow`:** to keep a page out of search results, use `noindex`, not `Disallow` in robots.txt.
+A crawler that may not fetch a page never sees its `noindex`, and the bare URL can still appear in results when other sites link to it.
+That's why this robots.txt allows everything.
+
+### For AI crawlers and LLMs
+
+| Item | What it does | In this project |
+|---|---|---|
+| **robots.txt rules per crawler** | AI crawlers identify themselves and follow robots.txt: `GPTBot` (OpenAI), `ClaudeBot` (Anthropic), `Google-Extended` (Gemini training), `PerplexityBot`, `CCBot` (Common Crawl). Block one with `User-agent: GPTBot` + `Disallow: /`. | All allowed (`User-agent: *`) |
+| **`llms.txt`** | A [proposal](https://llmstxt.org) from 2024: a Markdown file at the site root with a short summary and links to the important pages, for AI tools to read. Some documentation sites and AI coding tools use it; search engines don't. | `/llms.txt`: summary, pages, source code link |
+| **Markdown versions of pages** | Part of the same proposal: `/about.md` or `Accept: text/markdown` serves a page as Markdown. Useful for documentation sites whose pages get pulled into an AI tool's context. | Not used: the HTML is already clean, and it would duplicate every page |
+
+robots.txt only binds polite crawlers. Scrapers that ignore it are not stopped by blocking AI crawlers either, so
+allowing them costs nothing extra. Limits on cost belong in the hosting (e.g. capped concurrency, a budget alert).
+
+### How it works here
+
+- **`PublicPage`** lists the public pages with title and description: one list for the sitemap, llms.txt and the meta descriptions.
+- **`CrawlerController`** generates `robots.txt`, `sitemap.xml` and `llms.txt`. They are generated, not static files,
+  because they need absolute URLs.
+- **`site.base-url`** (`SITE_BASE_URL`) is the site's public address. Absolute links use it, not the request's host,
+  so they always name the public address, however the request arrived.
+- **`layout/page.jte`** takes `description`, `canonicalUrl` and `noindex` and writes the tags into `<head>`.
+- **`SecurityConfig`** lets the three files through: without that, Spring Security would redirect crawlers to the sign-in page.
+
+A new public page: add it to `PublicPage`, then pass `description` and `canonicalUrl` in its template (see `about.jte`).
+A page that shouldn't be indexed passes `noindex = true`.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -233,12 +290,13 @@ Platform-specific deployment notes live under [`deploy/`](deploy/):
 | AWS Lambda (current) | [`deploy/aws-lambda/README.md`](deploy/aws-lambda/README.md) |
 | Google Cloud Run (previous) | [`deploy/cloud-run/README.md`](deploy/cloud-run/README.md) |
 
-Every deployment provides two environment variables; the jar itself is the same everywhere:
+Every deployment provides these environment variables; the jar itself is the same everywhere:
 
 | Variable | Purpose |
 |---|---|
 | `SPRING_PROFILES_ACTIVE=prod` | `application.yml` defaults to `dev` for local runs |
 | `AUTH_COOKIE_SECRET` | Signs the login cookie, at least 32 characters; the same value on every instance |
+| `SITE_BASE_URL` | The site's public address, e.g. `https://beanwind.zeybekyilmazltd.com`, for canonical links, sitemap and llms.txt; defaults to `http://localhost:8080` |
 
 ---
 
@@ -249,6 +307,12 @@ Every deployment provides two environment variables; the jar itself is the same 
 ---
 
 ## Changelog
+
+### October 26, 2026 — Custom domain, search engines and AI crawlers
+- The live demo moved to https://beanwind.zeybekyilmazltd.com (the old URL still works).
+- Added `robots.txt`, `sitemap.xml` and `llms.txt`; public pages get a meta description, canonical link and Open Graph tags,
+  sign-in, secured and error pages get `noindex`. See [Search engines and AI crawlers](#search-engines-and-ai-crawlers).
+- New setting `site.base-url` (`SITE_BASE_URL`): the public address used for absolute links.
 
 ### October 24, 2026 — Renamed Jarloom → Beanwind
 - "Jarloom" turned out to be taken too: a live mobile puzzle game (jarloom.app) and a business at jarloom.com. Why "Beanwind": [`docs/Beanwind-Platform-Proposal.md`](docs/Beanwind-Platform-Proposal.md#18-name).
