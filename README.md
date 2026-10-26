@@ -3,7 +3,7 @@
 A simple company landing page built with **Spring Boot + JTE + Tailwind CSS v4**.
 No React. No Node.js. No npm. Pure Java.
 
-**Live demo:** https://uwoduwsukwkchdrhp7k4ac67wa0kkywt.lambda-url.eu-south-1.on.aws/
+**Live demo:** https://beanwind.zeybekyilmazltd.com/
 (sign in to the secured page with `demo` / `demo`)
 
 ---
