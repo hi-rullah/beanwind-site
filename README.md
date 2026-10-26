@@ -1,6 +1,6 @@
 # Beanwind Site
 
-A simple company landing page built with **Spring Boot + JTE + Tailwind CSS v4**.
+A server-rendered company website built with **Spring Boot 4 + JTE + Tailwind CSS v4**, with Spring Security login.
 No React. No Node.js. No npm. Pure Java.
 
 **Live demo:** https://beanwind.zeybekyilmazltd.com/
