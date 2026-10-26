@@ -121,8 +121,12 @@ Entra ID, ...). Spring Security supports this with `oauth2Login()`; the app then
 
 | Rule | Paths |
 |---|---|
-| Public | `/`, `/about`, `/login`, `/error`, `/css/**`, `/js/**`, `/fonts/**`, `/images/**` |
-| Login required | everything else, e.g. `/secured` (new pages are protected by default) |
+| Login required | `/secured` and below: list each protected page in `SecurityConfig` |
+| Public | everything else; a URL without a page shows the 404 page, signed in or not |
+
+New pages are **public by default**, as on most websites. A page that needs login must be added to the protected list.
+(The opposite default, "login required unless listed as public", suits apps where almost everything is behind login,
+but then an unknown URL sends anonymous visitors to the sign-in page instead of a 404.)
 
 - Login form: `GET /login` is our JTE page, `POST /login` is handled by Spring Security; success goes to `/secured`.
 - Logout: `POST /logout` (with CSRF token) deletes the `bw_auth` cookie and redirects to `/`.

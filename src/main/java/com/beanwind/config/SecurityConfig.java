@@ -56,11 +56,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .securityContext(context -> context.securityContextRepository(securityContextRepository))
                 .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()))
+                // Protected pages are listed here; everything else is public. So an unknown URL shows the
+                // "Page not found" page, signed in or not, instead of sending the visitor to sign in.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/about", "/privacy", "/login", "/error").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/images/**").permitAll()
-                        .requestMatchers("/robots.txt", "/sitemap.xml", "/llms.txt").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/secured", "/secured/**").authenticated()
+                        .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/secured")

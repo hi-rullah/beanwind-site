@@ -260,7 +260,8 @@ allowing them costs nothing extra. Limits on cost belong in the hosting (e.g. ca
 - **`site.base-url`** (`SITE_BASE_URL`) is the site's public address. Absolute links use it, not the request's host,
   so they always name the public address, however the request arrived.
 - **`layout/page.jte`** takes `description`, `canonicalUrl` and `noindex` and writes the tags into `<head>`.
-- **`SecurityConfig`** lets the three files through: without that, Spring Security would redirect crawlers to the sign-in page.
+- **`SecurityConfig`** protects only the listed pages (`/secured`), so the three files are public. If a site makes
+  pages login-only by default instead, they must be listed as public, or crawlers get the sign-in page.
 
 A new public page: add it to `PublicPage`, then pass `description` and `canonicalUrl` in its template (see `about.jte`).
 A page that shouldn't be indexed passes `noindex = true`.
