@@ -147,10 +147,11 @@ beanwind-site/
 │   │   ├── css/output.css                ← compiled Tailwind (generated)
 │   │   ├── js/                           ← one script per page (index.js, about.js, ...); layout/ for layout scripts (consent.js)
 │   │   ├── fonts/                        ← self-hosted Syne + DM Sans (.woff2)
-│   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest
+│   │   └── images/                       ← images; favicon/ holds favicons + site.webmanifest, og/ the link-preview image
 │   ├── application.yml                   ← app config (+ application-dev/prod.yml)
 │   └── logback-spring.xml                ← dev: log/app.log + log/visitor.log (30 days); prod: console
 ├── docs/architecture.md                  ← three-tier design, backend, secrets, security guide
+├── docs/og-image/og-card.html            ← source of the link-preview image
 ├── deploy/                               ← deployment notes & config per platform
 ├── secret.example.yml                    ← template for secret.yml (gitignored local secrets)
 ├── mvnw / mvnw.cmd                       ← Maven wrapper
@@ -233,13 +234,35 @@ at the right address. This applies to any website, not only this one.
 | **Canonical link** | `<link rel="canonical" href="...">` names the one address to index when a page is reachable at several (e.g. a custom domain and the hosting provider's URL) | Public pages, built from `site.base-url` |
 | **Meta description** | The text under the title in search results | Public pages, from `PublicPage` |
 | **`noindex`** | `<meta name="robots" content="noindex">` keeps a page out of search results | Sign-in, secured and error pages |
-| **Open Graph / Twitter cards** | `og:title`, `og:description`, `og:url`, `og:image`: the preview card when a link is shared on LinkedIn, Slack, WhatsApp, X | Public pages (no `og:image` yet) |
+| **Open Graph / Twitter cards** | `og:title`, `og:description`, `og:url`, `og:image`: the preview card when a link is shared on LinkedIn, Slack, WhatsApp, X | Public pages, one image for all: see [Link previews](#link-previews-open-graph) |
 | **Search Console** | Google Search Console / Bing Webmaster Tools: prove you own the site (DNS TXT record), submit the sitemap, see indexing errors | Not set up yet |
 | **Structured data** | JSON-LD `<script type="application/ld+json">` describing the site (organization, article, product, ...) for rich results | Not used; little effect for a small site |
 
 **`noindex` vs. `Disallow`:** to keep a page out of search results, use `noindex`, not `Disallow` in robots.txt.
 A crawler that may not fetch a page never sees its `noindex`, and the bare URL can still appear in results when other sites link to it.
 That's why this robots.txt allows everything.
+
+### Link previews (Open Graph)
+
+When someone pastes a link into LinkedIn, Slack, WhatsApp, X or Teams, that platform's server fetches the page once
+and reads a few `<meta>` tags from its `<head>` to build a preview card: image, title, description, domain.
+The tags come from the **Open Graph protocol** (`og:*`, started by Facebook, now used by almost every platform);
+X reads its own `twitter:*` tags and falls back to `og:*`.
+
+```html
+<meta property="og:title"       content="About — Beanwind">
+<meta property="og:description" content="Why Beanwind exists and how it works: ...">
+<meta property="og:url"         content="https://beanwind.zeybekyilmazltd.com/about">
+<meta property="og:image"       content="https://beanwind.zeybekyilmazltd.com/images/og/beanwind.png">
+<meta name="twitter:card"       content="summary_large_image">   <!-- big image instead of a thumbnail -->
+```
+
+- **Image:** 1200 × 630 PNG or JPG (not SVG), under about 1 MB, with an absolute URL. This site uses one image for every page:
+  `static/images/og/beanwind.png`, made from `docs/og-image/og-card.html` (site fonts, colors and logo; the file says how to render it).
+  A page can pass its own with `ogImage = "/images/og/other.png"`.
+- **Check a preview** with the platforms' own tools, e.g. LinkedIn Post Inspector (https://www.linkedin.com/post-inspector/),
+  or a general one like https://www.opengraph.xyz. Platforms cache a preview for days; their inspector also refreshes it.
+- Without these tags a shared link shows as a bare URL, or the platform guesses a title and picks any image from the page.
 
 ### For AI crawlers and LLMs
 

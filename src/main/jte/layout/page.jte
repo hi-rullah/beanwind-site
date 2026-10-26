@@ -10,6 +10,7 @@
 @param String description = null
 @param String canonicalUrl = null
 @param boolean noindex = false
+@param String ogImage = "/images/og/beanwind.png"
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +37,12 @@
         @if(description != null)
             <meta property="og:description" content="${description}">
         @endif
-        <meta name="twitter:card" content="summary">
+        <%-- The preview image must be an absolute URL: resolved against the canonical URL (site.base-url) --%>
+        <meta property="og:image" content="${java.net.URI.create(canonicalUrl).resolve(ogImage).toString()}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Beanwind: Build Beautiful Java Web Apps. One JAR. Whole UI.">
+        <meta name="twitter:card" content="summary_large_image">
     @endif
     <%-- Fonts used above the fold: start downloading before the CSS is parsed, so text does not swap fonts --%>
     <link rel="preload" href="/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
