@@ -1,6 +1,6 @@
 # Beanwind Site
 
-A server-rendered company website built with **Spring Boot 4 + JTE + Tailwind CSS v4**, with Spring Security login.
+A server-rendered Java web app built with **Spring Boot 4 + JTE + Tailwind CSS v4**, with Spring Security login.
 No React. No Node.js. No npm. Pure Java.
 
 **Live demo:** https://beanwind.zeybekyilmazltd.com/
