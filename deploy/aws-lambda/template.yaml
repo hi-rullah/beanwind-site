@@ -30,7 +30,8 @@ Resources:
         Variables:
           AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
           AWS_LWA_PORT: '8080'
-          AWS_LWA_READINESS_CHECK_PATH: /
+          # A static file: the visitor log skips it, so start-up checks are not counted as page views
+          AWS_LWA_READINESS_CHECK_PATH: /images/favicon/favicon.svg
           AWS_LWA_ENABLE_COMPRESSION: 'true'
           SPRING_PROFILES_ACTIVE: prod        # application.yml defaults to dev for local runs
           AUTH_COOKIE_SECRET: !Ref AuthCookieSecret
