@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Page routes. Every page view is logged by {@link com.beanwind.visitor.VisitorTrackingInterceptor},
- * so the handlers here need no logging code of their own.
+ * so the handlers here need no logging code of their own. Pages marked {@link SharedCache} may be served
+ * from the CDN cache to signed-out visitors; those views are then not logged.
  */
 @Controller
 public class PageController {
 
+    @SharedCache
     @GetMapping("/")
     public String home() {
         return "index";
     }
 
+    @SharedCache
     @GetMapping("/about")
     public String about() {
         return "about";

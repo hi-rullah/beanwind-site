@@ -8,9 +8,13 @@ spring:
   web:
     resources:
       cache:
-        # Let browsers cache css/js/fonts/images; Spring Security would otherwise send "no-store"
+        # Let browsers and the CDN cache css/js/fonts/images; Spring Security would otherwise send "no-store".
+        # Browsers keep them 1 hour: fonts, favicons and the link-preview image have no ?v= version in their URL,
+        # so a longer time would keep old copies after a change. The CDN keeps them 1 year; each deploy clears it.
         cachecontrol:
           max-age: 1h
+          s-max-age: 365d
+          cache-public: true
 
 # Signs the login cookie (see SignedCookieSecurityContextRepository). Required in prod, and every instance must use
 # the same value. Provided by the deployment as the AUTH_COOKIE_SECRET environment variable.

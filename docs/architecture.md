@@ -138,7 +138,10 @@ but then an unknown URL sends anonymous visitors to the sign-in page instead of 
 - Passwords: `BCryptPasswordEncoder`; the demo password is hashed at startup.
 - Templates get the logged-in user through `security/CurrentUserAdvice` (model attribute `currentUser`),
   which every page passes to `layout/navbar.jte`.
-- `application-prod.yml` sets `Cache-Control: max-age=3600` on static files; otherwise Spring Security marks them `no-store`.
+- `application-prod.yml` sets `Cache-Control: max-age=3600, public, s-maxage=31536000` on static files (browsers 1 hour,
+  CDN 1 year, cleared on each deploy); otherwise Spring Security marks them `no-store`.
+- Pages marked `@SharedCache` (`/`, `/about`) send `max-age=60, public, s-maxage=600` to signed-out visitors when the
+  response sets no cookie (`page/SharedCacheInterceptor`); every other page keeps Spring Security's `no-store`.
 
 ### 2. GitHub and Google login (prepared, commented out)
 

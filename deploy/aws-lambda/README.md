@@ -9,7 +9,8 @@ Lambda starts the Spring Boot jar via `run.sh`, and the adapter forwards each re
 | `template.yaml` | Infrastructure: function, public Function URL, log group (AWS SAM / CloudFormation) |
 | `samconfig.toml` | `sam deploy` defaults: stack `javaview-site`, region `eu-south-1` |
 | `run.sh` | Startup script launched by the Web Adapter |
-| `deploy.cmd` | Builds the jar, puts jar + `run.sh` into `target/lambda/` (the Lambda package) and runs `sam deploy` |
+| `deploy.cmd` | Builds the jar, puts jar + `run.sh` into `target/lambda/` (the Lambda package), runs `sam deploy`, then `clear-cdn-cache.cmd` |
+| `clear-cdn-cache.cmd` | Clears the CloudFront cache (`CLOUDFRONT_DISTRIBUTION_ID`); does nothing when that variable is not set |
 
 The AWS resource names (stack, function, log group, `JavaView...` template IDs) keep the project's old name, JavaView:
 renaming them would replace the function, and with it the Function URL.
@@ -61,6 +62,10 @@ which shows the changeset and asks for confirmation (`confirm_changeset = true`)
   Later deploys without it reuse the stored value. Never put it in `samconfig.toml` (committed).
 - Extra arguments are passed to `sam deploy` — preview only, without applying:
   `deploy\aws-lambda\deploy.cmd --no-execute-changeset`
+- **CDN cache:** with CloudFront in front, set `CLOUDFRONT_DISTRIBUTION_ID` and `deploy.cmd` clears the CloudFront
+  cache after `sam deploy`. A preview (`--no-execute-changeset`) clears nothing: after executing that changeset,
+  run `deploy\aws-lambda\clear-cdn-cache.cmd`. Needs the `cloudfront:CreateInvalidation` permission; the first
+  1,000 invalidation paths per month are free (`/*` counts as one).
 - `sam build` is **not** used — the script already produces the deployable package.
   (`sam build` would try to build the project its own way, which doesn't fit the Web Adapter setup.)
 - Every rebuild creates a "new" package (file timestamps inside the jar change), so even without code changes the
@@ -105,7 +110,13 @@ Memory is 512 MB since Oct 23, 2026: half the cost per ms. Lambda CPU scales wit
 - **Read-only filesystem:** only `/tmp` is writable on Lambda. JTE must use **precompiled templates** (`prod` profile) — dev mode would try to write compiled classes to disk.
 - **`run.sh` must use LF line endings and be executable.** `.gitattributes` forces LF; SAM CLI on Windows packaged it with the executable bit correctly (verified on first deploy).
 - **SnapStart applies only to published versions**, which is why the template uses `AutoPublishAlias: live` and the Function URL points at the alias. Code that must be unique per instance (random seeds, IDs, open connections) shouldn't be created at startup — this site has none.
-- **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front (also caches `output.css` / favicons).
+- **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front, which can also cache:
+  - Its cache policy must put the `bw_auth` cookie in the cache key (plus all query strings, for the `?v=` file
+    versions), so signed-in visitors never get a cached signed-out page. No other cookies or headers in the key.
+  - TTL: min 0, default 0, max 1 year. CloudFront then follows the app's `Cache-Control`: `s-maxage=600` on the
+    pages marked `@SharedCache` (only for signed-out visitors and only when no cookie is set), 1 year on static
+    files, `no-store` on everything else.
+  - Cached pages never reach Lambda, so they don't show up in the `page_view` log.
 - **No rate limiting/WAF** on Function URLs — add CloudFront + WAF if the site ever gets abuse traffic.
 - **Cost cap:** `ReservedConcurrentExecutions: 10` in `template.yaml` lets at most 10 requests run at once; more get
   `429 Too Many Requests`. This limits how fast abuse can cost money, it does not make it free, so also set an
