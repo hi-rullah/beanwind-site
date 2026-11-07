@@ -110,13 +110,15 @@ Memory is 512 MB since Oct 23, 2026: half the cost per ms. Lambda CPU scales wit
 - **Read-only filesystem:** only `/tmp` is writable on Lambda. JTE must use **precompiled templates** (`prod` profile) — dev mode would try to write compiled classes to disk.
 - **`run.sh` must use LF line endings and be executable.** `.gitattributes` forces LF; SAM CLI on Windows packaged it with the executable bit correctly (verified on first deploy).
 - **SnapStart applies only to published versions**, which is why the template uses `AutoPublishAlias: live` and the Function URL points at the alias. Code that must be unique per instance (random seeds, IDs, open connections) shouldn't be created at startup — this site has none.
-- **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front, which can also cache:
-  - Its cache policy must put the `bw_auth` cookie in the cache key (plus all query strings, for the `?v=` file
-    versions), so signed-in visitors never get a cached signed-out page. No other cookies or headers in the key.
-  - TTL: min 0, default 0, max 1 year. CloudFront then follows the app's `Cache-Control`: `s-maxage=600` on the
-    pages marked `@SharedCache` (only for signed-out visitors and only when no cookie is set), 1 year on static
-    files, `no-store` on everything else.
-  - Cached pages never reach Lambda, so they don't show up in the `page_view` log.
+- **Custom domain:** Function URLs can't use your own domain. Put **CloudFront** in front (cache policy
+  `CachingDisabled`, origin request policy `AllViewerExceptHostHeader`: the Function URL rejects a foreign `Host`).
+- **CDN caching (not enabled):** the app already sends CDN-ready `Cache-Control` headers: `s-maxage=600` on the pages
+  marked `@SharedCache` (only for signed-out visitors and only when no cookie is set), 1 year on static files,
+  `no-store` on everything else. To use them, CloudFront needs a custom cache policy with the `bw_auth` cookie and
+  all query strings in the cache key, no headers, TTL min 0 / default 0 / max 1 year. CloudFront's Free flat-rate
+  plan doesn't allow custom cache policies, and no managed policy fits: `CachingOptimized` ignores cookies with a
+  1-second minimum TTL, and `UseOriginCacheControlHeaders` puts `Host` in the key, which is then sent to the
+  Function URL. Cached pages never reach Lambda, so they wouldn't show up in the `page_view` log.
 - **No rate limiting/WAF** on Function URLs — add CloudFront + WAF if the site ever gets abuse traffic.
 - **Cost cap:** `ReservedConcurrentExecutions: 10` in `template.yaml` lets at most 10 requests run at once; more get
   `429 Too Many Requests`. This limits how fast abuse can cost money, it does not make it free, so also set an
